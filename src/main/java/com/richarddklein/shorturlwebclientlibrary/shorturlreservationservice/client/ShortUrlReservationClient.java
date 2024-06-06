@@ -1,5 +1,5 @@
 /**
- * The Short URL Reservation Client
+ * The Short URL WebClient Library
  * (Copyright 2024 by Richard Klein)
  */
 
@@ -9,10 +9,10 @@ import com.richarddklein.shorturlwebclientlibrary.shorturlreservationservice.dto
 import com.richarddklein.shorturlwebclientlibrary.shorturlreservationservice.dto.ShortUrlReservationStatus;
 
 /**
- * The Short URL Reservation Client interface.
+ * The Short URL Reservation WebClient interface.
  *
  * <p>Specifies the methods that must be implemented by any class that plays
- * the role of a client of the Short URL Reservation Service.</p>
+ * the role of a web client of the Short URL Reservation Service.</p>
  */
 public interface ShortUrlReservationClient {
     /**

@@ -1,5 +1,5 @@
 /**
- * The Short URL Mapping Service
+ * The Short URL WebClient Library
  * (Copyright 2024 by Richard Klein)
  */
 

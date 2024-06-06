@@ -4,7 +4,8 @@
  */
 
 /**
- * This package contains files that implement the JSON responses
- * returned to the HTTP client by the Short URL Reservation service.
+ * This package contains DTO (Data Transfer Object) classes that
+ * implement the JSON responses returned to the web client by the
+ * Short URL Reservation service.
  */
-package com.richarddklein.shorturlmappingservice.response.shorturlreservationservice;
+package com.richarddklein.shorturlwebclientlibrary.shorturlreservationservice.dto;

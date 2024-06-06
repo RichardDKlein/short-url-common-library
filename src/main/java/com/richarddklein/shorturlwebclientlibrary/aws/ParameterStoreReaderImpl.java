@@ -1,5 +1,5 @@
 /**
- * The Short URL Mapping Service
+ * The Short URL WebClient Library
  * (Copyright 2024 by Richard Klein)
  */
 
@@ -14,36 +14,15 @@ import software.amazon.awssdk.services.ssm.model.GetParameterResponse;
  */
 @Component
 public class ParameterStoreReaderImpl implements ParameterStoreReader {
-    private static final String SHORT_URL_MAPPING_TABLE_NAME =
-            "/shortUrl/mappings/tableName";
     private static final String SHORT_URL_RESERVATION_SERVICE_BASE_URL_LOCAL =
             "/shortUrl/reservations/baseUrlLocal";
     private static final String SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS =
             "/shortUrl/reservations/baseUrlAws";
 
-    private final SsmClient ssmClient;
+    private final SsmClient ssmClient = SsmClient.builder().build();
 
-    private String shortUrlMappingTableName;
     private String shortUrlReservationServiceBaseUrlLocal;
     private String shortUrlReservationServiceBaseUrlAws;
-
-    /**
-     * General constructor.
-     *
-     * @param ssmClient Dependency injection of a class instance that is to play
-     *                  the role of an SSM (Simple Systems Manager) Client.
-     */
-    public ParameterStoreReaderImpl(SsmClient ssmClient) {
-        this.ssmClient = ssmClient;
-    }
-
-    @Override
-    public String getShortUrlMappingTableName() {
-        if (shortUrlMappingTableName == null) {
-            shortUrlMappingTableName = getParameter(SHORT_URL_MAPPING_TABLE_NAME);
-        }
-        return shortUrlMappingTableName;
-    }
 
     @Override
     public String getShortUrlReservationServiceBaseUrlLocal() {

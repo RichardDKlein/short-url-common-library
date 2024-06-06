@@ -1,12 +1,12 @@
 /**
- * The Short URL Mapping Service
+ * The Short URL WebClient Library
  * (Copyright 2024 by Richard Klein)
  */
 
 package com.richarddklein.shorturlwebclientlibrary.shorturlreservationservice.dto;
 
 /**
- * Class defining the status returned by the Short URL Reservation service
+ * Class defining the status object returned by the Short URL Reservation service
  * in response to a request to reserve a short URL.
  */
 public class Status {

@@ -1,5 +1,5 @@
 /**
- * The Short URL Reservation Service
+ * The Short URL WebClient Library
  * (Copyright 2024 by Richard Klein)
  */
 
@@ -9,19 +9,10 @@ package com.richarddklein.shorturlwebclientlibrary.aws;
  * The Parameter Store Reader interface.
  *
  * <p>Specifies the methods that must be implemented by any class that
- * reads parameters from the Parameter Store component of the AWS Systems
- * Manager.</p>
+ * reads certain parameters from the Parameter Store component of the
+ * AWS Systems Manager.</p>
  */
 public interface ParameterStoreReader {
-    /**
-     * Get the name of the Short URL Mapping table in the DynamoDB
-     * database.
-     *
-     * @return The name of the Short URL Mapping table in the DynamoDB
-     * database.
-     */
-    String getShortUrlMappingTableName();
-
     /**
      * Get the base URL of the Short URL Reservation Service when
      * that service is running on your local machine.
