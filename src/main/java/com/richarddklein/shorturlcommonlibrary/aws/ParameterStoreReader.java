@@ -64,4 +64,42 @@ public interface ParameterStoreReader {
      * database.
      */
     String getShortUrlMappingTableName();
+
+    /**
+     * Get the admin (unencrypted) username
+     *
+     * @return The admin (unencrypted) username
+     */
+    String getAdminUsername();
+
+    /**
+     * Get the admin (unencrypted) password
+     *
+     * @return The admin (unencrypted) password
+     */
+    String getAdminPassword();
+
+    /**
+     * Get the number of minutes that a JWT token should live
+     * before it expires.
+     *
+     * @return The JWT token minutes to live.
+     */
+    int getJwtMinutesToLive();
+
+    /**
+     * Get the secret key used to encode/decode JWT tokens.
+     *
+     * @return The JWT token secret key.
+     */
+    String getJwtSecretKey();
+
+    /**
+     * Get the name of the Short URL User table in the DynamoDB
+     * database.
+     *
+     * @return The name of the Short URL User table in the DynamoDB
+     * database.
+     */
+    String getShortUrlUserTableName();
 }
