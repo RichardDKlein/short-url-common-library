@@ -14,6 +14,8 @@ import software.amazon.awssdk.services.ssm.model.GetParameterResponse;
  */
 @Component
 public class ParameterStoreReaderImpl implements ParameterStoreReader {
+    private static final String SHORT_URL_MAPPING_TABLE_NAME =
+            "/shortUrl/mappings/tableName";
     private static final String SHORT_URL_RANGE = "/shortUrl/reservations/range";
     private static final String SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS =
             "/shortUrl/reservations/baseUrlAws";
@@ -26,9 +28,14 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
     private String shortUrlReservationTableName;
     private Long minShortUrlBase10;
     private Long maxShortUrlBase10;
-
     private String shortUrlReservationServiceBaseUrlLocal;
     private String shortUrlReservationServiceBaseUrlAws;
+
+    private String shortUrlMappingTableName;
+
+    // ------------------------------------------------------------------------
+    // PUBLIC METHODS
+    // ------------------------------------------------------------------------
 
     @Override
     public String getShortUrlReservationTableName() {
@@ -85,6 +92,18 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
         }
         return shortUrlReservationServiceBaseUrlAws;
     }
+
+    @Override
+    public String getShortUrlMappingTableName() {
+        if (shortUrlMappingTableName == null) {
+            shortUrlMappingTableName = getParameter(SHORT_URL_MAPPING_TABLE_NAME);
+        }
+        return shortUrlMappingTableName;
+    }
+
+    // ------------------------------------------------------------------------
+    // PRIVATE METHODS
+    // ------------------------------------------------------------------------
 
     /**
      * Get a parameter from the Parameter Store.

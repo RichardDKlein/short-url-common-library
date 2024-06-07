@@ -55,4 +55,13 @@ public interface ParameterStoreReader {
      * @return The base URL.
      */
     String getShortUrlReservationServiceBaseUrlAws();
+
+    /**
+     * Get the name of the Short URL Mapping table in the DynamoDB
+     * database.
+     *
+     * @return The name of the Short URL Mapping table in the DynamoDB
+     * database.
+     */
+    String getShortUrlMappingTableName();
 }
