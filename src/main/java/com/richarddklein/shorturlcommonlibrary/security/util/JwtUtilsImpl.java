@@ -10,11 +10,12 @@ import java.util.concurrent.TimeUnit;
 import javax.crypto.SecretKey;
 
 import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreReader;
-import com.richarddklein.shorturlcommonlibrary.security.dto.UsernameAndRole;
+import com.richarddklein.shorturlcommonlibrary.security.dto.UsernameAndRoleDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import reactor.core.publisher.Mono;
 
 public class JwtUtilsImpl implements JwtUtils {
     private final ParameterStoreReader parameterStoreReader;
@@ -23,19 +24,25 @@ public class JwtUtilsImpl implements JwtUtils {
         this.parameterStoreReader = parameterStoreReader;
     }
 
-    public String generateToken(UsernameAndRole shortUrlUser) {
-        Date now = new Date();
-        long timeToLive = TimeUnit.MINUTES.toMillis(
-                parameterStoreReader.getJwtMinutesToLive());
-        Date expirationDate = new Date(now.getTime() + timeToLive);
+    @Override
+    public Mono<String>
+    generateToken(Mono<String> usernameMono, Mono<String> roleMono) {
+        return usernameMono.flatMap(username -> {
+            return roleMono.map(role -> {
+                Date now = new Date();
+                long timeToLive = TimeUnit.MINUTES.toMillis(
+                        parameterStoreReader.getJwtMinutesToLive());
+                Date expirationDate = new Date(now.getTime() + timeToLive);
 
-        return Jwts.builder()
-                .subject(shortUrlUser.getUsername())
-                .claim("role", shortUrlUser.getRole())
-                .issuedAt(now)
-                .expiration(expirationDate)
-                .signWith(getKey())
-                .compact();
+                return Jwts.builder()
+                        .subject(username)
+                        .claim("role", role)
+                        .issuedAt(now)
+                        .expiration(expirationDate)
+                        .signWith(getKey())
+                        .compact();
+            });
+        });
     }
 
     public Claims getClaimsFromToken(String token) {
