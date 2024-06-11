@@ -9,7 +9,7 @@ package com.richarddklein.shorturlcommonlibrary.security.dto;
  * Class defining a DTO (Data Transfer Object) containing
  * `username` and `role` fields.
  */
-public class UsernameAndRoleDto {
+public class UsernameAndRole {
     private String username;
     private String role;
 
@@ -19,7 +19,7 @@ public class UsernameAndRoleDto {
      * @param username The username.
      * @param role The user role.
      */
-    public UsernameAndRoleDto(String username, String role) {
+    public UsernameAndRole(String username, String role) {
         this.username = username;
         this.role = role;
     }
@@ -42,7 +42,7 @@ public class UsernameAndRoleDto {
 
     @Override
     public String toString() {
-        return "UsernameAndRoleDto{" +
+        return "UsernameAndRole{" +
                 "username='" + username + '\'' +
                 ", role='" + role + '\'' +
                 '}';
