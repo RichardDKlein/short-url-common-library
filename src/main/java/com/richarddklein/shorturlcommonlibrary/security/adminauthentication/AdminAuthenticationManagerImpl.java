@@ -17,7 +17,6 @@ public class AdminAuthenticationManagerImpl implements AdminAuthenticationManage
 
     @Override
     public Mono<Authentication> authenticate(Authentication authentication) {
-        System.out.println("====> Entering AdminAuthenticationManagerImpl ...");
         if (authentication.getPrincipal().equals(parameterStoreReader.getAdminUsername()) &&
                 authentication.getCredentials().equals(parameterStoreReader.getAdminPassword())) {
             return Mono.just(authentication);

@@ -25,8 +25,6 @@ public class JwtTokenAuthenticationConverterImpl implements JwtTokenAuthenticati
 
     @Override
     public Mono<Authentication> convert(ServerWebExchange exchange) {
-        System.out.println("====> Entering JwtTokenAuthenticationConverterImpl ...");
-
         String authorizationHeader = exchange.getRequest().getHeaders().getFirst("Authorization");
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             return Mono.error(new MissingAuthorizationHeaderException("Missing authorization header"));
@@ -36,7 +34,6 @@ public class JwtTokenAuthenticationConverterImpl implements JwtTokenAuthenticati
 
         try {
             Claims claims = jwtUtils.getClaimsFromToken(jwtToken);
-            System.out.printf("====> claims = %s\n", claims);
             String username = claims.getSubject();
             String role = claims.get("role", String.class);
 

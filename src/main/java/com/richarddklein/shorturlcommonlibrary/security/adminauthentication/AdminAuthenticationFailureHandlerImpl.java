@@ -24,8 +24,6 @@ public class AdminAuthenticationFailureHandlerImpl implements AdminAuthenticatio
     @Override
     public Mono<Void> onAuthenticationFailure(WebFilterExchange webFilterExchange,
                                               AuthenticationException exception) {
-
-        System.out.println("====> Entering AdminAuthenticationFailureHandlerImpl ...");
         SecurityStatus status = null;
         String message = null;
 

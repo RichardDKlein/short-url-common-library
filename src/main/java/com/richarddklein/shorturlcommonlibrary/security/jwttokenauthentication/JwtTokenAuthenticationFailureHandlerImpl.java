@@ -24,8 +24,6 @@ public class JwtTokenAuthenticationFailureHandlerImpl implements JwtTokenAuthent
     @Override
     public Mono<Void> onAuthenticationFailure(WebFilterExchange webFilterExchange,
                                               AuthenticationException exception) {
-
-        System.out.println("====> Entering JwtTokenAuthenticationFailureHandler ...");
         SecurityStatus status = null;
         String message = null;
 

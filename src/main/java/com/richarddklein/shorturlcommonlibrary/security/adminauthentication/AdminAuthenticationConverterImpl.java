@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono;
 public class AdminAuthenticationConverterImpl implements AdminAuthenticationConverter {
     @Override
     public Mono<Authentication> convert(ServerWebExchange exchange) {
-        System.out.println("====> Entering AdminAuthenticationConverterImpl ...");
         String authorizationHeader =
                 exchange.getRequest().getHeaders().getFirst("Authorization");
         if (authorizationHeader == null || !authorizationHeader.startsWith("Basic ")) {
