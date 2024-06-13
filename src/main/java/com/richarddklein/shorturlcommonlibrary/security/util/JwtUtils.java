@@ -10,5 +10,5 @@ import io.jsonwebtoken.Claims;
 
 public interface JwtUtils {
     String generateToken(UsernameAndRole shortUrlUser);
-    Claims getClaimsFromToken(String jwtToken);
+    UsernameAndRole extractUsernameAndRoleFromToken(String jwtToken);
 }

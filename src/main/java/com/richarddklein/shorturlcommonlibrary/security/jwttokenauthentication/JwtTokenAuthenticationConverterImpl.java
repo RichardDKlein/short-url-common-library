@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.richarddklein.shorturlcommonlibrary.exception.InvalidJwtException;
 import com.richarddklein.shorturlcommonlibrary.exception.MissingAuthorizationHeaderException;
+import com.richarddklein.shorturlcommonlibrary.security.dto.UsernameAndRole;
 import com.richarddklein.shorturlcommonlibrary.security.util.JwtUtils;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,9 @@ public class JwtTokenAuthenticationConverterImpl implements JwtTokenAuthenticati
         String jwtToken = authorizationHeader.substring("Bearer ".length()).trim();
 
         try {
-            Claims claims = jwtUtils.getClaimsFromToken(jwtToken);
-            String username = claims.getSubject();
-            String role = claims.get("role", String.class);
+            UsernameAndRole usernameAndRole = jwtUtils.extractUsernameAndRoleFromToken(jwtToken);
+            String username = usernameAndRole.getUsername();
+            String role = usernameAndRole.getRole();
 
             List<SimpleGrantedAuthority> authorities =
                     Collections.singletonList(new SimpleGrantedAuthority(role));

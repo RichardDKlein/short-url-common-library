@@ -23,6 +23,7 @@ public class JwtUtilsImpl implements JwtUtils {
         this.parameterStoreReader = parameterStoreReader;
     }
 
+    @Override
     public String generateToken(UsernameAndRole shortUrlUser) {
         Date now = new Date();
         long timeToLive = TimeUnit.MINUTES.toMillis(
@@ -38,12 +39,18 @@ public class JwtUtilsImpl implements JwtUtils {
                 .compact();
     }
 
-    public Claims getClaimsFromToken(String token) {
-        return Jwts.parser()
+    @Override
+    public UsernameAndRole extractUsernameAndRoleFromToken(String token) {
+        Claims payload = Jwts.parser()
                 .verifyWith(getKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+
+        String username = payload.getSubject();
+        String role = payload.get("role", String.class);
+
+        return new UsernameAndRole(username, role);
     }
 
     private SecretKey getKey() {
