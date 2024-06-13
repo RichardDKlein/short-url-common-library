@@ -12,9 +12,7 @@ package com.richarddklein.shorturlcommonlibrary.security.dto;
  * statuses that can be returned in response to a client request.
  */
 public enum SecurityStatus {
-    SUCCESS,
     INVALID_ADMIN_CREDENTIALS,
     INVALID_JWT_EXCEPTION,
     MISSING_AUTHORIZATION_HEADER,
-    MISSING_PASSWORD,
 }
