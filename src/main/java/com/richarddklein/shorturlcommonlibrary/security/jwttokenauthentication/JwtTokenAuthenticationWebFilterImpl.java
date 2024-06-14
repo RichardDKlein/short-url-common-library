@@ -5,7 +5,12 @@
 
 package com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.http.HttpMethod;
+import org.springframework.security.web.server.util.matcher.OrServerWebExchangeMatcher;
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 
 public class JwtTokenAuthenticationWebFilterImpl extends JwtTokenAuthenticationWebFilter {
@@ -19,11 +24,15 @@ public class JwtTokenAuthenticationWebFilterImpl extends JwtTokenAuthenticationW
         setServerAuthenticationConverter(jwtTokenAuthenticationConverter);
         setAuthenticationFailureHandler(jwtTokenAuthenticationFailureHandler);
 
-        setRequiresAuthenticationMatcher(
-                ServerWebExchangeMatchers.pathMatchers(
-                        HttpMethod.GET,
-                        "/validate", "/shorturl/users/validate",
-                        "/details", "/shorturl/users/details",
-                        "/changepassword", "/shorturl/users/changepassword"));
+
+        List<ServerWebExchangeMatcher> matchers = Arrays.asList(
+                ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET,
+                    "/validate", "/shorturl/users/validate",
+                    "/details", "/shorturl/users/details"),
+                ServerWebExchangeMatchers.pathMatchers(HttpMethod.PATCH,
+                    "/changepassword", "/shorturl/users/changepassword")
+        );
+
+        setRequiresAuthenticationMatcher(new OrServerWebExchangeMatcher(matchers));
     }
 }
