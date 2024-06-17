@@ -31,6 +31,8 @@ public class JwtTokenAuthenticationWebFilterImpl extends JwtTokenAuthenticationW
                     "/details", "/shorturl/users/details"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.PATCH,
                     "/changepassword", "/shorturl/users/changepassword")
+                ServerWebExchangeMatchers.pathMatchers(HttpMethod.DELETE,
+                        "/delete", "/shorturl/users/delete")
         );
 
         setRequiresAuthenticationMatcher(new OrServerWebExchangeMatcher(matchers));
