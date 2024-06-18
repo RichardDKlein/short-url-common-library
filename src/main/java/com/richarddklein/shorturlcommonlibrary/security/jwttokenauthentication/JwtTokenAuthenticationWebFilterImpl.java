@@ -27,7 +27,7 @@ public class JwtTokenAuthenticationWebFilterImpl extends JwtTokenAuthenticationW
 
         List<ServerWebExchangeMatcher> matchers = Arrays.asList(
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET,
-                    "/validate", "/shorturl/users/validate",
+                    "/all", "/shorturl/users/all",
                     "/details", "/shorturl/users/details"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.PATCH,
                     "/changepassword", "/shorturl/users/changepassword"),
