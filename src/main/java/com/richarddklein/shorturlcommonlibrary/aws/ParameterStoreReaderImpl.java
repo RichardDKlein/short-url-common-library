@@ -165,12 +165,18 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
         if (shortUrlUserTableName == null) {
             shortUrlUserTableName = getParameter(
                     SHORT_URL_USER_TABLE_NAME);
+
             System.out.printf("====> lambdaFunctionName = %s\n",
                     lambdaFunctionName);
+            System.out.printf("====> useTestRepositoryWhenRunningLocally = %s\n",
+                    useTestRepositoryWhenRunningLocally);
+
             if (lambdaFunctionName.startsWith("test-")
                     || useTestRepositoryWhenRunningLocally) {
                 shortUrlUserTableName = "test-" +
                         shortUrlUserTableName;
+                System.out.printf("====> shortUrlUserTableName = %s\n",
+                        shortUrlUserTableName);
             }
         }
         return shortUrlUserTableName;
