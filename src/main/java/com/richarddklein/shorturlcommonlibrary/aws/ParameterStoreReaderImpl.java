@@ -4,8 +4,9 @@
  */
 
 package com.richarddklein.shorturlcommonlibrary.aws;
-
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 import software.amazon.awssdk.services.ssm.SsmClient;
 import software.amazon.awssdk.services.ssm.model.GetParameterResponse;
 
@@ -14,19 +15,26 @@ import software.amazon.awssdk.services.ssm.model.GetParameterResponse;
  */
 @Component
 public class ParameterStoreReaderImpl implements ParameterStoreReader {
-    private static final String ADMIN_USERNAME = "/shortUrl/users/adminUsername";
-    private static final String ADMIN_PASSWORD = "/shortUrl/users/adminPassword";
-    private static final String JWT_MINUTES_TO_LIVE = "/shortUrl/users/jwtMinutesToLive";
-    private static final String JWT_SECRET_KEY = "/shortUrl/users/jwtSecretKey";
+    private static final String ADMIN_USERNAME =
+            "/shortUrl/users/adminUsername";
+    private static final String ADMIN_PASSWORD =
+            "/shortUrl/users/adminPassword";
+    private static final String JWT_MINUTES_TO_LIVE =
+            "/shortUrl/users/jwtMinutesToLive";
+    private static final String JWT_SECRET_KEY =
+            "/shortUrl/users/jwtSecretKey";
     private static final String SHORT_URL_MAPPING_TABLE_NAME =
             "/shortUrl/mappings/tableName";
-    private static final String SHORT_URL_RANGE = "/shortUrl/reservations/range";
+    private static final String SHORT_URL_RANGE =
+            "/shortUrl/reservations/range";
     private static final String SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS =
             "/shortUrl/reservations/baseUrlAws";
     private static final String SHORT_URL_RESERVATION_SERVICE_BASE_URL_LOCAL =
             "/shortUrl/reservations/baseUrlLocal";
-    private static final String SHORT_URL_RESERVATION_TABLE_NAME = "/shortUrl/reservations/tableName";
-    private static final String SHORT_URL_USER_TABLE_NAME = "/shortUrl/users/tableName";
+    private static final String SHORT_URL_RESERVATION_TABLE_NAME =
+            "/shortUrl/reservations/tableName";
+    private static final String SHORT_URL_USER_TABLE_NAME =
+            "/shortUrl/users/tableName";
 
 
     private final SsmClient ssmClient;
@@ -76,7 +84,8 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
     @Override
     public int getJwtMinutesToLive() {
         if (jwtMinutesToLive == 0) {
-            jwtMinutesToLive = Integer.parseInt(getParameter(JWT_MINUTES_TO_LIVE));
+            jwtMinutesToLive = Integer.parseInt(
+                    getParameter(JWT_MINUTES_TO_LIVE));
         }
         return jwtMinutesToLive;
     }
@@ -112,7 +121,8 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
     @Override
     public String getShortUrlMappingTableName() {
         if (shortUrlMappingTableName == null) {
-            shortUrlMappingTableName = getParameter(SHORT_URL_MAPPING_TABLE_NAME);
+            shortUrlMappingTableName = getParameter(
+                    SHORT_URL_MAPPING_TABLE_NAME);
         }
         return shortUrlMappingTableName;
     }
@@ -120,8 +130,8 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
     @Override
     public String getShortUrlReservationServiceBaseUrlAws() {
         if (shortUrlReservationServiceBaseUrlAws == null) {
-            shortUrlReservationServiceBaseUrlAws =
-                    getParameter(SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS);
+            shortUrlReservationServiceBaseUrlAws = getParameter(
+                    SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS);
         }
         return shortUrlReservationServiceBaseUrlAws;
     }
@@ -129,8 +139,8 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
     @Override
     public String getShortUrlReservationServiceBaseUrlLocal() {
         if (shortUrlReservationServiceBaseUrlLocal == null) {
-            shortUrlReservationServiceBaseUrlLocal =
-                    getParameter(SHORT_URL_RESERVATION_SERVICE_BASE_URL_LOCAL);
+            shortUrlReservationServiceBaseUrlLocal = getParameter(
+                    SHORT_URL_RESERVATION_SERVICE_BASE_URL_LOCAL);
         }
         return shortUrlReservationServiceBaseUrlLocal;
     }
@@ -138,7 +148,8 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
     @Override
     public String getShortUrlReservationTableName() {
         if (shortUrlReservationTableName == null) {
-            shortUrlReservationTableName = getParameter(SHORT_URL_RESERVATION_TABLE_NAME);
+            shortUrlReservationTableName = getParameter(
+                    SHORT_URL_RESERVATION_TABLE_NAME);
         }
         return shortUrlReservationTableName;
     }
@@ -146,7 +157,17 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
     @Override
     public String getShortUrlUserTableName() {
         if (shortUrlUserTableName == null) {
-            shortUrlUserTableName = getParameter(SHORT_URL_USER_TABLE_NAME);
+            shortUrlUserTableName = getParameter(
+                    SHORT_URL_USER_TABLE_NAME);
+            Mono<ServerHttpRequest> requestMono =
+                Mono.deferContextual(Mono::just)
+                .map(ctx -> ctx.get(ServerHttpRequest.class));
+            requestMono.subscribe(request -> {
+                if (request.getURI().toString().contains("test.")) {
+                    shortUrlUserTableName = "test-" +
+                            shortUrlUserTableName;
+                }
+            });
         }
         return shortUrlUserTableName;
     }
