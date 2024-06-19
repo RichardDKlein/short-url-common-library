@@ -6,10 +6,7 @@
 package com.richarddklein.shorturlcommonlibrary.aws;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
-
-import reactor.core.publisher.Mono;
 
 import software.amazon.awssdk.services.ssm.SsmClient;
 import software.amazon.awssdk.services.ssm.model.GetParameterResponse;
@@ -44,6 +41,9 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
 
     @Value("${AWS_LAMBDA_FUNCTION_NAME:}")
     private String lambdaFunctionName;
+
+    @Value("${USE_TEST_REPOSITORY_WHEN_RUNNING_LOCALLY:false}")
+    private boolean useTestRepositoryWhenRunningLocally;
 
     private String adminPassword;
     private String adminUsername;
@@ -165,7 +165,10 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
         if (shortUrlUserTableName == null) {
             shortUrlUserTableName = getParameter(
                     SHORT_URL_USER_TABLE_NAME);
-            if (lambdaFunctionName.contains("-test-")) {
+            System.out.printf("====> lambdaFunctionName = %s\n",
+                    lambdaFunctionName);
+            if (lambdaFunctionName.startsWith("test-")
+                    || useTestRepositoryWhenRunningLocally) {
                 shortUrlUserTableName = "test-" +
                         shortUrlUserTableName;
             }
