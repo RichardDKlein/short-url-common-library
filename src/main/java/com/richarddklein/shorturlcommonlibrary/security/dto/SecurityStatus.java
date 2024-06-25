@@ -14,5 +14,6 @@ package com.richarddklein.shorturlcommonlibrary.security.dto;
 public enum SecurityStatus {
     INVALID_ADMIN_CREDENTIALS,
     INVALID_JWT_EXCEPTION,
-    MISSING_AUTHORIZATION_HEADER,
+    MISSING_BASIC_AUTHORIZATION_HEADER,
+    MISSING_BEARER_TOKEN_AUTHORIZATION_HEADER,
 }

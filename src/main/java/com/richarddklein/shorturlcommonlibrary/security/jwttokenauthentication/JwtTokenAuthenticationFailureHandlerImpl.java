@@ -28,7 +28,7 @@ public class JwtTokenAuthenticationFailureHandlerImpl implements JwtTokenAuthent
         String message = null;
 
         if (exception instanceof MissingAuthorizationHeaderException) {
-            status = SecurityStatus.MISSING_AUTHORIZATION_HEADER;
+            status = SecurityStatus.MISSING_BEARER_TOKEN_AUTHORIZATION_HEADER;
             message = "The request does not contain a Bearer Token authorization header";
         } else if (exception instanceof InvalidJwtException) {
             status = SecurityStatus.INVALID_JWT_EXCEPTION;
