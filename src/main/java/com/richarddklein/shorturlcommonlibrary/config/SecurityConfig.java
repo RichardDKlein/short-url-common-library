@@ -21,6 +21,7 @@ import com.richarddklein.shorturlcommonlibrary.security.util.JwtUtilsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -73,6 +74,7 @@ public class SecurityConfig {
     }
 
     @Bean
+    @Primary
     public AdminBasicAuthenticationManager
     adminBasicAuthenticationManager() {
         return new AdminBasicAuthenticationManagerImpl();
