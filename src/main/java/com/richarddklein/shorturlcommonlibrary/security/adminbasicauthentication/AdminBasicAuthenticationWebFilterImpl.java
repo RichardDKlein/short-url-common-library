@@ -3,7 +3,7 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.security.adminauthentication;
+package com.richarddklein.shorturlcommonlibrary.security.adminbasicauthentication;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,16 +13,16 @@ import org.springframework.security.web.server.util.matcher.OrServerWebExchangeM
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 
-public class AdminAuthenticationWebFilterImpl extends AdminAuthenticationWebFilter {
-    public AdminAuthenticationWebFilterImpl(
-            AdminAuthenticationManager adminAuthenticationManager,
-            AdminAuthenticationConverter adminAuthenticationConverter,
-            AdminAuthenticationFailureHandler adminAuthenticationFailureHandler) {
+public class AdminBasicAuthenticationWebFilterImpl extends AdminBasicAuthenticationWebFilter {
+    public AdminBasicAuthenticationWebFilterImpl(
+            AdminBasicAuthenticationManager adminBasicAuthenticationManager,
+            AdminBasicAuthenticationConverter adminBasicAuthenticationConverter,
+            AdminBasicAuthenticationFailureHandler adminBasicAuthenticationFailureHandler) {
 
-        super(adminAuthenticationManager);
+        super(adminBasicAuthenticationManager);
 
-        setServerAuthenticationConverter(adminAuthenticationConverter);
-        setAuthenticationFailureHandler(adminAuthenticationFailureHandler);
+        setServerAuthenticationConverter(adminBasicAuthenticationConverter);
+        setAuthenticationFailureHandler(adminBasicAuthenticationFailureHandler);
 
         List<ServerWebExchangeMatcher> matchers = Arrays.asList(
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST,

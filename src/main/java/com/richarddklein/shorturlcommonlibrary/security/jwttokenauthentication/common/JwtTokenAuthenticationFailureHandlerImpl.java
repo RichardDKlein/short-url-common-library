@@ -3,14 +3,16 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication;
+package com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.richarddklein.shorturlcommonlibrary.exception.InvalidJwtException;
 import com.richarddklein.shorturlcommonlibrary.exception.MissingAuthorizationHeaderException;
+import com.richarddklein.shorturlcommonlibrary.exception.MustBeAdminException;
 import com.richarddklein.shorturlcommonlibrary.security.dto.SecurityStatus;
 import com.richarddklein.shorturlcommonlibrary.security.dto.SecurityStatusResponse;
+import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.common.JwtTokenAuthenticationFailureHandler;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpStatus;
@@ -32,6 +34,9 @@ public class JwtTokenAuthenticationFailureHandlerImpl implements JwtTokenAuthent
             message = "The request does not contain a Bearer Token authorization header";
         } else if (exception instanceof InvalidJwtException) {
             status = SecurityStatus.INVALID_JWT_EXCEPTION;
+            message = exception.getMessage();
+        } else if (exception instanceof MustBeAdminException) {
+            status = SecurityStatus.MUST_BE_ADMIN;
             message = exception.getMessage();
         }
 

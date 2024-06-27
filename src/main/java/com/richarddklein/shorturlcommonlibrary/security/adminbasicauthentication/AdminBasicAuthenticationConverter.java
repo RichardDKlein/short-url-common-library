@@ -3,9 +3,9 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication;
+package com.richarddklein.shorturlcommonlibrary.security.adminbasicauthentication;
 
 import org.springframework.security.web.server.authentication.ServerAuthenticationConverter;
 
-public interface JwtTokenAuthenticationConverter extends ServerAuthenticationConverter {
+public interface AdminBasicAuthenticationConverter extends ServerAuthenticationConverter {
 }

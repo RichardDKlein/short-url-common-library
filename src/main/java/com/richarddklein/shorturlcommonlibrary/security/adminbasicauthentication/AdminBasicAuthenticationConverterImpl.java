@@ -3,7 +3,7 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.security.adminauthentication;
+package com.richarddklein.shorturlcommonlibrary.security.adminbasicauthentication;
 
 import com.richarddklein.shorturlcommonlibrary.exception.MissingAuthorizationHeaderException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,7 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-public class AdminAuthenticationConverterImpl implements AdminAuthenticationConverter {
+public class AdminBasicAuthenticationConverterImpl implements AdminBasicAuthenticationConverter {
     @Override
     public Mono<Authentication> convert(ServerWebExchange exchange) {
         String authorizationHeader =

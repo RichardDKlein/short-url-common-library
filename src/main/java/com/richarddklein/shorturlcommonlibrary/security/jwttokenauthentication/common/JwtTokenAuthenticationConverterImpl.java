@@ -3,7 +3,7 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication;
+package com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.common;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,8 +11,8 @@ import java.util.List;
 import com.richarddklein.shorturlcommonlibrary.exception.InvalidJwtException;
 import com.richarddklein.shorturlcommonlibrary.exception.MissingAuthorizationHeaderException;
 import com.richarddklein.shorturlcommonlibrary.security.dto.UsernameAndRole;
+import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.common.JwtTokenAuthenticationConverter;
 import com.richarddklein.shorturlcommonlibrary.security.util.JwtUtils;
-import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

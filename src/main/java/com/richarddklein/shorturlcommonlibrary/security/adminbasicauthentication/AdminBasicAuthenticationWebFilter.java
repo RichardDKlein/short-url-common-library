@@ -3,13 +3,13 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.security.adminauthentication;
+package com.richarddklein.shorturlcommonlibrary.security.adminbasicauthentication;
 
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 
-public class AdminAuthenticationWebFilter extends AuthenticationWebFilter {
-    public AdminAuthenticationWebFilter(ReactiveAuthenticationManager authenticationManager) {
+public class AdminBasicAuthenticationWebFilter extends AuthenticationWebFilter {
+    public AdminBasicAuthenticationWebFilter(ReactiveAuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
 }

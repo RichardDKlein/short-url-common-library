@@ -3,7 +3,7 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.security.adminauthentication;
+package com.richarddklein.shorturlcommonlibrary.security.adminbasicauthentication;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +20,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.server.WebFilterExchange;
 import reactor.core.publisher.Mono;
 
-public class AdminAuthenticationFailureHandlerImpl implements AdminAuthenticationFailureHandler {
+public class AdminBasicAuthenticationFailureHandlerImpl implements AdminBasicAuthenticationFailureHandler {
     @Override
     public Mono<Void> onAuthenticationFailure(WebFilterExchange webFilterExchange,
                                               AuthenticationException exception) {
