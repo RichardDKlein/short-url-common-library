@@ -25,6 +25,7 @@ public class AdminBasicAuthenticationConverterImpl implements AdminBasicAuthenti
         String[] credentials = new String(decodedBytes).split(":", 2);
         String username = credentials[0];
         String password = credentials[1];
+        System.out.printf("AdminBasicAuthenticationConverter: username = %s, password = %s\n", username, password);
         return Mono.just(new UsernamePasswordAuthenticationToken(username, password));
     }
 }

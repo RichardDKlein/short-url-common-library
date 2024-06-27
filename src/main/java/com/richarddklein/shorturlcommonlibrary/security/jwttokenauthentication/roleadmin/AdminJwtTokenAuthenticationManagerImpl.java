@@ -20,7 +20,7 @@ public class AdminJwtTokenAuthenticationManagerImpl implements AdminJwtTokenAuth
         if (role.equals("ADMIN")) {
             return Mono.just(authentication);
         } else {
-            return Mono.error(new MustBeAdminException("Must be admin"));
+            return Mono.error(new MustBeAdminException("Must be an admin to perform this operation"));
         }
     }
 }

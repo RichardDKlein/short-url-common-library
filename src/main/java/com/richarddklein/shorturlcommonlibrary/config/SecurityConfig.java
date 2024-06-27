@@ -61,7 +61,7 @@ public class SecurityConfig {
     }
 
     // ------------------------------------------------------------------------
-    // ADMIN AUTHENTICATION WEB FILTER
+    // ADMIN BASIC AUTHENTICATION WEB FILTER
     // ------------------------------------------------------------------------
 
     @Bean
