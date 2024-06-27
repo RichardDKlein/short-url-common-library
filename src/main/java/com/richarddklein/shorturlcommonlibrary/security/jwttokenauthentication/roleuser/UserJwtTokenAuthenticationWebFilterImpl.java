@@ -26,9 +26,10 @@ public class UserJwtTokenAuthenticationWebFilterImpl extends UserJwtTokenAuthent
         setServerAuthenticationConverter(jwtTokenAuthenticationConverter);
         setAuthenticationFailureHandler(jwtTokenAuthenticationFailureHandler);
 
-        List<ServerWebExchangeMatcher> matchers = Arrays.asList(
-        );
-
-        setRequiresAuthenticationMatcher(new OrServerWebExchangeMatcher(matchers));
+        // Matchers cannot be empty. Spring will throw an exception during initialization.ß
+//        List<ServerWebExchangeMatcher> matchers = Arrays.asList(
+//        );
+//
+//        setRequiresAuthenticationMatcher(new OrServerWebExchangeMatcher(matchers));
     }
 }
