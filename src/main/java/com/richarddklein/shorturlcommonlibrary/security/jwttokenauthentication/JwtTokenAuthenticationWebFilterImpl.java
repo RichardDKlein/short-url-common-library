@@ -24,7 +24,6 @@ public class JwtTokenAuthenticationWebFilterImpl extends JwtTokenAuthenticationW
         setServerAuthenticationConverter(jwtTokenAuthenticationConverter);
         setAuthenticationFailureHandler(jwtTokenAuthenticationFailureHandler);
 
-
         List<ServerWebExchangeMatcher> matchers = Arrays.asList(
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET,
                     "/all", "/shorturl/users/all",

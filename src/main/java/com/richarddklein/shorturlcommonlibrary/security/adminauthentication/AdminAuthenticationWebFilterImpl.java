@@ -5,7 +5,12 @@
 
 package com.richarddklein.shorturlcommonlibrary.security.adminauthentication;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.http.HttpMethod;
+import org.springframework.security.web.server.util.matcher.OrServerWebExchangeMatcher;
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 
 public class AdminAuthenticationWebFilterImpl extends AdminAuthenticationWebFilter {
@@ -19,9 +24,11 @@ public class AdminAuthenticationWebFilterImpl extends AdminAuthenticationWebFilt
         setServerAuthenticationConverter(adminAuthenticationConverter);
         setAuthenticationFailureHandler(adminAuthenticationFailureHandler);
 
-        setRequiresAuthenticationMatcher(
-                ServerWebExchangeMatchers.pathMatchers(
-                        HttpMethod.POST,
-                        "/dbinit", "/shorturl/users/dbinit"));
+        List<ServerWebExchangeMatcher> matchers = Arrays.asList(
+                ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST,
+                        "/dbinit", "/shorturl/users/dbinit")
+        );
+
+        setRequiresAuthenticationMatcher(new OrServerWebExchangeMatcher(matchers));
     }
 }
