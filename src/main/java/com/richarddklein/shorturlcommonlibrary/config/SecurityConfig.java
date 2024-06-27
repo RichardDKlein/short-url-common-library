@@ -65,22 +65,22 @@ public class SecurityConfig {
 
     @Bean
     public AdminBasicAuthenticationWebFilter
-    adminAuthenticationWebFilter() {
+    adminBasicAuthenticationWebFilter() {
         return new AdminBasicAuthenticationWebFilterImpl(
-                adminAuthenticationManager(),
-                adminAuthenticationConverter(),
+                adminBasicAuthenticationManager(),
+                adminBasicAuthenticationConverter(),
                 adminAuthenticationFailureHandler());
     }
 
     @Bean
     public AdminBasicAuthenticationManager
-    adminAuthenticationManager() {
+    adminBasicAuthenticationManager() {
         return new AdminBasicAuthenticationManagerImpl();
     }
 
     @Bean
     public AdminBasicAuthenticationConverter
-    adminAuthenticationConverter() {
+    adminBasicAuthenticationConverter() {
         return new AdminBasicAuthenticationConverterImpl();
     }
 

@@ -9,7 +9,9 @@ import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.c
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 
 public class UserJwtTokenAuthenticationWebFilter extends JwtTokenAuthenticationWebFilter {
-    public UserJwtTokenAuthenticationWebFilter(ReactiveAuthenticationManager authenticationManager) {
-        super(authenticationManager);
+    public UserJwtTokenAuthenticationWebFilter(
+            UserJwtTokenAuthenticationManager userJwtTokenAuthenticationManager) {
+
+        super(userJwtTokenAuthenticationManager);
     }
 }

@@ -29,12 +29,7 @@ public class AdminJwtTokenAuthenticationWebFilterImpl extends AdminJwtTokenAuthe
 
         List<ServerWebExchangeMatcher> matchers = Arrays.asList(
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET,
-                        "/all", "/shorturl/users/all",
-                        "/details", "/shorturl/users/details"),
-                ServerWebExchangeMatchers.pathMatchers(HttpMethod.PATCH,
-                        "/changepassword", "/shorturl/users/changepassword"),
-                ServerWebExchangeMatchers.pathMatchers(HttpMethod.DELETE,
-                        "/specific", "/shorturl/users/specific")
+                        "/all", "/shorturl/users/all")
         );
 
         setRequiresAuthenticationMatcher(new OrServerWebExchangeMatcher(matchers));

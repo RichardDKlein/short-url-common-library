@@ -27,6 +27,12 @@ public class UserJwtTokenAuthenticationWebFilterImpl extends UserJwtTokenAuthent
         setAuthenticationFailureHandler(jwtTokenAuthenticationFailureHandler);
 
         List<ServerWebExchangeMatcher> matchers = Arrays.asList(
+                ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET,
+                "/details", "/shorturl/users/details"),
+        ServerWebExchangeMatchers.pathMatchers(HttpMethod.PATCH,
+                "/changepassword", "/shorturl/users/changepassword"),
+                ServerWebExchangeMatchers.pathMatchers(HttpMethod.DELETE,
+                        "/specific", "/shorturl/users/specific")
         );
 
         setRequiresAuthenticationMatcher(new OrServerWebExchangeMatcher(matchers));

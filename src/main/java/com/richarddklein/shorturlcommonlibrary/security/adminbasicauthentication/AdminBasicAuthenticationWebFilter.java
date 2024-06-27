@@ -9,7 +9,9 @@ import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 
 public class AdminBasicAuthenticationWebFilter extends AuthenticationWebFilter {
-    public AdminBasicAuthenticationWebFilter(ReactiveAuthenticationManager authenticationManager) {
-        super(authenticationManager);
+    public AdminBasicAuthenticationWebFilter(
+            AdminBasicAuthenticationManager adminBasicAuthenticationManager) {
+
+        super(adminBasicAuthenticationManager);
     }
 }

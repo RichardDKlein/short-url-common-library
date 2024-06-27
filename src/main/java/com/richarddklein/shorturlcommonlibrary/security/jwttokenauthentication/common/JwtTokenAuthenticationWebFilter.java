@@ -9,7 +9,9 @@ import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 
 public class JwtTokenAuthenticationWebFilter extends AuthenticationWebFilter {
-    public JwtTokenAuthenticationWebFilter(ReactiveAuthenticationManager authenticationManager) {
-        super(authenticationManager);
+    public JwtTokenAuthenticationWebFilter(
+            JwtTokenAuthenticationManager jwtTokenAuthenticationManager) {
+
+        super(jwtTokenAuthenticationManager);
     }
 }
