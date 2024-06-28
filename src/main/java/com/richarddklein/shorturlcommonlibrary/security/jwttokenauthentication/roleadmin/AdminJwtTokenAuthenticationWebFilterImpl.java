@@ -28,14 +28,17 @@ public class AdminJwtTokenAuthenticationWebFilterImpl extends AdminJwtTokenAuthe
         setAuthenticationFailureHandler(jwtTokenAuthenticationFailureHandler);
 
         List<ServerWebExchangeMatcher> matchers = Arrays.asList(
+                ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST,
+                        "/signup", "/shorturl/users/signup",
+                        "/login", "/shorturl/users/login"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET,
                         "/all", "/shorturl/users/all",
                         "/details", "/shorturl/users/details"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.PATCH,
                         "/changepassword", "/shorturl/users/changepassword"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.DELETE,
-                        "/specific", "/shorturl/users/specific")
-
+                        "/specific", "/shorturl/users/specific",
+                        "/all", "/shorturl/users/all")
         );
 
         setRequiresAuthenticationMatcher(new OrServerWebExchangeMatcher(matchers));
