@@ -22,7 +22,7 @@ public class AdminBasicAuthenticationManagerImpl implements AdminBasicAuthentica
             System.out.printf("AdminBasicAuthenticationManagerImpl: admin credentials are correct\n");
             return Mono.just(authentication);
         } else {
-            return Mono.error(new BadCredentialsException("Invalid username or password"));
+            return Mono.error(new BadCredentialsException("Invalid admin credentials"));
         }
     }
 }
