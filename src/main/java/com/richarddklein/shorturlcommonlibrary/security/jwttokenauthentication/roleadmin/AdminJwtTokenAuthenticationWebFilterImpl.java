@@ -32,6 +32,7 @@ public class AdminJwtTokenAuthenticationWebFilterImpl extends AdminJwtTokenAuthe
                         "/signup", "/shorturl/users/signup",
                         "/login", "/shorturl/users/login"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET,
+                        "/adminjwt", "/shorturl/users/adminjwt",
                         "/all", "/shorturl/users/all",
                         "/details", "/shorturl/users/details"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.PATCH,
