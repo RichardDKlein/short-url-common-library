@@ -9,6 +9,6 @@ import com.richarddklein.shorturlcommonlibrary.security.dto.UsernameAndRole;
 import io.jsonwebtoken.Claims;
 
 public interface JwtUtils {
-    String generateToken(UsernameAndRole shortUrlUser);
+    String generateToken(UsernameAndRole usernameAndRole);
     UsernameAndRole extractUsernameAndRoleFromToken(String jwtToken);
 }

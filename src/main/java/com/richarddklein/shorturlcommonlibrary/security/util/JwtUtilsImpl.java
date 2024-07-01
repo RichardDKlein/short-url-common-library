@@ -24,15 +24,15 @@ public class JwtUtilsImpl implements JwtUtils {
     }
 
     @Override
-    public String generateToken(UsernameAndRole shortUrlUser) {
+    public String generateToken(UsernameAndRole usernameAndRole) {
         Date now = new Date();
         long timeToLive = TimeUnit.MINUTES.toMillis(
                 parameterStoreReader.getJwtMinutesToLive());
         Date expirationDate = new Date(now.getTime() + timeToLive);
 
         return Jwts.builder()
-                .subject(shortUrlUser.getUsername())
-                .claim("role", shortUrlUser.getRole())
+                .subject(usernameAndRole.getUsername())
+                .claim("role", usernameAndRole.getRole())
                 .issuedAt(now)
                 .expiration(expirationDate)
                 .signWith(getKey())
