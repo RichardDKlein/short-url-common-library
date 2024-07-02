@@ -29,17 +29,16 @@ public class AdminBasicAuthenticationFailureHandlerImpl implements AdminBasicAut
 
         if (exception instanceof MissingAuthorizationHeaderException) {
             status = SecurityStatus.MISSING_BASIC_AUTHORIZATION_HEADER;
-            message = "The request does not contain a Basic authorization header";
         } else if (exception instanceof BadCredentialsException) {
             status = SecurityStatus.INVALID_ADMIN_CREDENTIALS;
-            message = "The Authorization header does not contain valid Admin credentials";
         }
 
         ServerHttpResponse response = webFilterExchange.getExchange().getResponse();
         response.setStatusCode(HttpStatus.UNAUTHORIZED);
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
-        SecurityStatusResponse errorResponse = new SecurityStatusResponse(status, message);
+        SecurityStatusResponse errorResponse =
+                new SecurityStatusResponse(status, exception.getMessage());
         byte[] responseBytes;
         try {
             responseBytes = new ObjectMapper().writeValueAsBytes(errorResponse);

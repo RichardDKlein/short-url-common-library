@@ -31,20 +31,18 @@ public class JwtTokenAuthenticationFailureHandlerImpl implements JwtTokenAuthent
 
         if (exception instanceof MissingAuthorizationHeaderException) {
             status = SecurityStatus.MISSING_BEARER_TOKEN_AUTHORIZATION_HEADER;
-            message = "The request does not contain a Bearer Token authorization header";
         } else if (exception instanceof InvalidJwtException) {
             status = SecurityStatus.INVALID_JWT_EXCEPTION;
-            message = exception.getMessage();
         } else if (exception instanceof MustBeAdminException) {
             status = SecurityStatus.MUST_BE_ADMIN;
-            message = exception.getMessage();
         }
 
         ServerHttpResponse response = webFilterExchange.getExchange().getResponse();
         response.setStatusCode(HttpStatus.UNAUTHORIZED);
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
-        SecurityStatusResponse errorResponse = new SecurityStatusResponse(status, message);
+        SecurityStatusResponse errorResponse =
+                new SecurityStatusResponse(status, exception.getMessage());
         byte[] responseBytes;
         try {
             responseBytes = new ObjectMapper().writeValueAsBytes(errorResponse);

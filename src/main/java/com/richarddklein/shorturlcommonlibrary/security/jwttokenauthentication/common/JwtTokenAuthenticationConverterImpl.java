@@ -28,7 +28,8 @@ public class JwtTokenAuthenticationConverterImpl implements JwtTokenAuthenticati
     public Mono<Authentication> convert(ServerWebExchange exchange) {
         String authorizationHeader = exchange.getRequest().getHeaders().getFirst("Authorization");
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            return Mono.error(new MissingAuthorizationHeaderException("Missing authorization header"));
+            return Mono.error(new MissingAuthorizationHeaderException(
+                    "The request does not contain a Bearer Token authorization header"));
         }
 
         String jwtToken = authorizationHeader.substring("Bearer ".length()).trim();

@@ -17,8 +17,8 @@ public class AdminBasicAuthenticationConverterImpl implements AdminBasicAuthenti
         String authorizationHeader =
                 exchange.getRequest().getHeaders().getFirst("Authorization");
         if (authorizationHeader == null || !authorizationHeader.startsWith("Basic ")) {
-            return Mono.error(
-                    new MissingAuthorizationHeaderException("Missing authorization header"));
+            return Mono.error(new MissingAuthorizationHeaderException(
+                    "The request does not contain a Basic authorization header"));
         }
         String base64Credentials = authorizationHeader.substring("Basic ".length()).trim();
         byte[] decodedBytes = java.util.Base64.getDecoder().decode(base64Credentials);

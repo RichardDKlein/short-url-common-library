@@ -22,7 +22,8 @@ public class AdminBasicAuthenticationManagerImpl implements AdminBasicAuthentica
             System.out.printf("AdminBasicAuthenticationManagerImpl: admin credentials are correct\n");
             return Mono.just(authentication);
         } else {
-            return Mono.error(new BadCredentialsException("Invalid admin credentials"));
+            return Mono.error(new BadCredentialsException(
+                    "The Authorization header does not contain valid Admin credentials"));
         }
     }
 }
