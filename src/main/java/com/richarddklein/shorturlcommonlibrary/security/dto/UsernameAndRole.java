@@ -13,12 +13,9 @@ public class UsernameAndRole {
     private String username;
     private String role;
 
-    /**
-     * General constructor.
-     *
-     * @param username The username.
-     * @param role The user role.
-     */
+    public UsernameAndRole() {
+    }
+
     public UsernameAndRole(String username, String role) {
         this.username = username;
         this.role = role;
