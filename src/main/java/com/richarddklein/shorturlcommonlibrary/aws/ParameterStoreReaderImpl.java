@@ -129,6 +129,19 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
         if (shortUrlMappingTableName == null) {
             shortUrlMappingTableName = getParameter(
                     SHORT_URL_MAPPING_TABLE_NAME);
+
+            System.out.printf("====> lambdaFunctionName = %s\n",
+                    lambdaFunctionName);
+            System.out.printf("====> useTestRepositoryWhenRunningLocally = %s\n",
+                    useTestRepositoryWhenRunningLocally);
+
+            if (lambdaFunctionName.startsWith("test-")
+                    || useTestRepositoryWhenRunningLocally) {
+                shortUrlMappingTableName = "test-" +
+                        shortUrlMappingTableName;
+                System.out.printf("====> shortUrlMappingTableName = %s\n",
+                        shortUrlMappingTableName);
+            }
         }
         return shortUrlMappingTableName;
     }
@@ -156,6 +169,19 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
         if (shortUrlReservationTableName == null) {
             shortUrlReservationTableName = getParameter(
                     SHORT_URL_RESERVATION_TABLE_NAME);
+
+            System.out.printf("====> lambdaFunctionName = %s\n",
+                    lambdaFunctionName);
+            System.out.printf("====> useTestRepositoryWhenRunningLocally = %s\n",
+                    useTestRepositoryWhenRunningLocally);
+
+            if (lambdaFunctionName.startsWith("test-")
+                    || useTestRepositoryWhenRunningLocally) {
+                shortUrlReservationTableName = "test-" +
+                        shortUrlReservationTableName;
+                System.out.printf("====> shortUrlReservationTableName = %s\n",
+                        shortUrlReservationTableName);
+            }
         }
         return shortUrlReservationTableName;
     }
