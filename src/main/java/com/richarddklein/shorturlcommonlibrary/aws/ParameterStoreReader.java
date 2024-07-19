@@ -80,6 +80,11 @@ public interface ParameterStoreReader {
     String getAdminPassword();
 
     /**
+     * Set the admin (unencrypted) password
+     */
+    void setAdminPassword(String adminPassword);
+
+    /**
      * Get the number of minutes that a JWT token should live
      * before it expires.
      *

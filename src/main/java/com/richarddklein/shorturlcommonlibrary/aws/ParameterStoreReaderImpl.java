@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import software.amazon.awssdk.services.ssm.SsmClient;
 import software.amazon.awssdk.services.ssm.model.GetParameterResponse;
+import software.amazon.awssdk.services.ssm.model.PutParameterResponse;
 
 /**
  * The production implementation of the Parameter Store Reader interface.
@@ -77,6 +78,11 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
             adminPassword = getParameter(ADMIN_PASSWORD);
         }
         return adminPassword;
+    }
+
+    @Override
+    public void setAdminPassword(String adminPassword) {
+        setParameter(ADMIN_PASSWORD, adminPassword);
     }
 
     @Override
@@ -222,5 +228,16 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
         GetParameterResponse parameterResponse =
                 ssmClient.getParameter(req -> req.name(parameterName));
         return parameterResponse.parameter().value();
+    }
+
+    /**
+     * Set a parameter in the Parameter Store.
+     *
+     * @param parameterName The name of the parameter of interest.
+     */
+    private void setParameter(String parameterName, String parameterValue) {
+        ssmClient.putParameter(req -> req
+                .name(parameterName)
+                .value(parameterValue));
     }
 }
