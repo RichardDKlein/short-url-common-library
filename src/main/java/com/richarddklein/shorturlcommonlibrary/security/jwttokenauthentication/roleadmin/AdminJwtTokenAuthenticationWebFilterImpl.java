@@ -28,25 +28,20 @@ public class AdminJwtTokenAuthenticationWebFilterImpl extends AdminJwtTokenAuthe
 
         List<ServerWebExchangeMatcher> matchers = Arrays.asList(
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST,
-                        "/signup", "/shorturl/users/signup",
-                        "/login", "/shorturl/users/login",
-                        "/dbinit", "/shorturl/reservations/dbinit"),
+                        "**/signup",
+                        "**/login"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET,
-                        "/all", "/shorturl/users/all", "/shorturl/reservations/all",
-                        "/specific/**", "/shorturl/reservations/specific/**",
-                        "/details", "/shorturl/users/details"),
+                        "**/specific/**",
+                        "**/all",
+                        "**/details"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.PATCH,
-                        "/changepassword", "/shorturl/users/changepassword",
-                        "/reserve/any", "/shorturl/reservations/reserve/any",
-                        "/reserve/specific/**", "/shorturl/reservations/reserve/specific/**",
-                        "/reserve/all", "/shorturl/reservations/reserve/all",
-                        "/cancel/specific/**", "/shorturl/reservations/cancel/specific/**",
-                        "/cancel/all", "/shorturl/reservations/cancel/all"),
+                        "**/reserve/**",
+                        "**/cancel/**",
+                        "**/changepassword"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.DELETE,
-                        "/specific", "/shorturl/users/specific",
-                        "/all", "/shorturl/users/all")
+                        "**/specific",
+                        "**/all")
         );
-
         setRequiresAuthenticationMatcher(new OrServerWebExchangeMatcher(matchers));
     }
 }
