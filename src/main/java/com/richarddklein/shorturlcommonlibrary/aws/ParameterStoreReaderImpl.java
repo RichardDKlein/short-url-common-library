@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import software.amazon.awssdk.services.ssm.SsmClient;
 import software.amazon.awssdk.services.ssm.model.GetParameterResponse;
+import software.amazon.awssdk.services.ssm.model.ParameterType;
 import software.amazon.awssdk.services.ssm.model.PutParameterResponse;
 
 /**
@@ -238,6 +239,8 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
     private void setParameter(String parameterName, String parameterValue) {
         ssmClient.putParameter(req -> req
                 .name(parameterName)
-                .value(parameterValue));
+                .value(parameterValue)
+                .type(ParameterType.STRING)
+                .overwrite(true));
     }
 }
