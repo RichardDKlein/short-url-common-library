@@ -5,6 +5,8 @@
 
 package com.richarddklein.shorturlcommonlibrary.aws;
 
+import reactor.core.publisher.Mono;
+
 /**
  * The Parameter Store Reader interface.
  *
@@ -20,7 +22,7 @@ public interface ParameterStoreReader {
      * @return The name of the Short URL Reservation table in the DynamoDB
      * database.
      */
-    String getShortUrlReservationTableName();
+    Mono<String> getShortUrlReservationTableName();
 
     /**
      * Get the minimum short URL, in base-10 representation.
@@ -29,7 +31,7 @@ public interface ParameterStoreReader {
      * range of short URLs that are to be stored in the Short URL Reservation
      * table in the DynamoDB database.
      */
-    long getMinShortUrlBase10();
+    Mono<Long> getMinShortUrlBase10();
 
     /**
      * Get the maximum short URL, in base-10 representation.
@@ -38,7 +40,7 @@ public interface ParameterStoreReader {
      * range of short URLs that are to be stored in the Short URL Reservation
      * table in the DynamoDB database.
      */
-    long getMaxShortUrlBase10();
+    Mono<Long> getMaxShortUrlBase10();
 
     /**
      * Get the base URL of the Short URL Reservation Service when
@@ -46,7 +48,7 @@ public interface ParameterStoreReader {
      *
      * @return The base URL.
      */
-    String getShortUrlReservationServiceBaseUrlLocal();
+    Mono<String> getShortUrlReservationServiceBaseUrlLocal();
 
     /**
      * Get the base URL of the Short URL Reservation Service when
@@ -54,7 +56,7 @@ public interface ParameterStoreReader {
      *
      * @return The base URL.
      */
-    String getShortUrlReservationServiceBaseUrlAws();
+    Mono<String> getShortUrlReservationServiceBaseUrlAws();
 
     /**
      * Get the name of the Short URL Mapping table in the DynamoDB
@@ -63,26 +65,26 @@ public interface ParameterStoreReader {
      * @return The name of the Short URL Mapping table in the DynamoDB
      * database.
      */
-    String getShortUrlMappingTableName();
+    Mono<String> getShortUrlMappingTableName();
 
     /**
      * Get the admin (unencrypted) username
      *
      * @return The admin (unencrypted) username
      */
-    String getAdminUsername();
+    Mono<String> getAdminUsername();
 
     /**
      * Get the admin (unencrypted) password
      *
      * @return The admin (unencrypted) password
      */
-    String getAdminPassword();
+    Mono<String> getAdminPassword();
 
     /**
      * Set the admin (unencrypted) password
      */
-    void setAdminPassword(String adminPassword);
+    Mono<Void> setAdminPassword(String adminPassword);
 
     /**
      * Get the number of minutes that a JWT token should live
@@ -90,14 +92,14 @@ public interface ParameterStoreReader {
      *
      * @return The JWT token minutes to live.
      */
-    int getJwtMinutesToLive();
+    Mono<Integer> getJwtMinutesToLive();
 
     /**
      * Get the secret key used to encode/decode JWT tokens.
      *
      * @return The JWT token secret key.
      */
-    String getJwtSecretKey();
+    Mono<String> getJwtSecretKey();
 
     /**
      * Get the name of the Short URL User table in the DynamoDB
@@ -106,5 +108,5 @@ public interface ParameterStoreReader {
      * @return The name of the Short URL User table in the DynamoDB
      * database.
      */
-    String getShortUrlUserTableName();
+    Mono<String> getShortUrlUserTableName();
 }

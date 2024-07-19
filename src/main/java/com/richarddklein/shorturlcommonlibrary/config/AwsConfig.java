@@ -9,6 +9,7 @@ import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreReader;
 import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreReaderImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import software.amazon.awssdk.services.ssm.SsmAsyncClient;
 import software.amazon.awssdk.services.ssm.SsmClient;
 
 /**
@@ -20,14 +21,14 @@ import software.amazon.awssdk.services.ssm.SsmClient;
 @Configuration
 public class AwsConfig {
     @Bean
-    public SsmClient
-    ssmClient() {
-        return SsmClient.builder().build();
+    public SsmAsyncClient
+    ssmAsyncClient() {
+        return SsmAsyncClient.builder().build();
     }
 
     @Bean
     public ParameterStoreReader
     parameterStoreReader() {
-        return new ParameterStoreReaderImpl(ssmClient());
+        return new ParameterStoreReaderImpl(ssmAsyncClient());
     }
 }

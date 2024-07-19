@@ -8,10 +8,9 @@ package com.richarddklein.shorturlcommonlibrary.aws;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import software.amazon.awssdk.services.ssm.SsmClient;
-import software.amazon.awssdk.services.ssm.model.GetParameterResponse;
+import reactor.core.publisher.Mono;
+import software.amazon.awssdk.services.ssm.SsmAsyncClient;
 import software.amazon.awssdk.services.ssm.model.ParameterType;
-import software.amazon.awssdk.services.ssm.model.PutParameterResponse;
 
 /**
  * The production implementation of the Parameter Store Reader interface.
@@ -39,7 +38,7 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
     private static final String SHORT_URL_USER_TABLE_NAME =
             "/shortUrl/users/tableName";
 
-    private final SsmClient ssmClient;
+    private final SsmAsyncClient ssmAsyncClient;
 
     @Value("${AWS_LAMBDA_FUNCTION_NAME:}")
     private String lambdaFunctionName;
@@ -47,96 +46,58 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
     @Value("${USE_TEST_REPOSITORY_WHEN_RUNNING_LOCALLY:false}")
     private boolean useTestRepositoryWhenRunningLocally;
 
-    private String adminPassword;
-    private String adminUsername;
-    private int jwtMinutesToLive;
-    private String jwtSecretKey;
-    private Long maxShortUrlBase10;
-    private Long minShortUrlBase10;
-    private String shortUrlMappingTableName;
-    private String shortUrlReservationServiceBaseUrlAws;
-    private String shortUrlReservationServiceBaseUrlLocal;
-    private String shortUrlReservationTableName;
-    private String shortUrlUserTableName;
-
     // ------------------------------------------------------------------------
     // PUBLIC METHODS
     // ------------------------------------------------------------------------
 
-    /**
-     * General constructor.
-     *
-     * @param ssmClient Dependency injection of a class instance that is to play
-     *                  the role of an SSM (Simple Systems Manager) Client.
-     */
-    public ParameterStoreReaderImpl(SsmClient ssmClient) {
-        this.ssmClient = ssmClient;
+    public ParameterStoreReaderImpl(SsmAsyncClient ssmAsyncClient) {
+        this.ssmAsyncClient = ssmAsyncClient;
     }
 
     @Override
-    public String getAdminPassword() {
-        if (adminPassword == null) {
-            adminPassword = getParameter(ADMIN_PASSWORD);
-        }
-        return adminPassword;
+    public Mono<String> getAdminPassword() {
+        return getParameter(ADMIN_PASSWORD);
     }
 
     @Override
-    public void setAdminPassword(String adminPassword) {
-        setParameter(ADMIN_PASSWORD, adminPassword);
+    public Mono<Void> setAdminPassword(String adminPassword) {
+        return setParameter(ADMIN_PASSWORD, adminPassword);
     }
 
     @Override
-    public String getAdminUsername() {
-        if (adminUsername == null) {
-            adminUsername = getParameter(ADMIN_USERNAME);
-        }
-        return adminUsername;
+    public Mono<String> getAdminUsername() {
+        return getParameter(ADMIN_USERNAME);
     }
 
     @Override
-    public int getJwtMinutesToLive() {
-        if (jwtMinutesToLive == 0) {
-            jwtMinutesToLive = Integer.parseInt(
-                    getParameter(JWT_MINUTES_TO_LIVE));
-        }
-        return jwtMinutesToLive;
+    public Mono<Integer> getJwtMinutesToLive() {
+        return getParameter(JWT_MINUTES_TO_LIVE).map(Integer::parseInt);
     }
 
     @Override
-    public String getJwtSecretKey() {
-        if (jwtSecretKey == null) {
-            jwtSecretKey = getParameter(JWT_SECRET_KEY);
-        }
-        return jwtSecretKey;
+    public Mono<String> getJwtSecretKey() {
+        return getParameter(JWT_SECRET_KEY);
     }
 
     @Override
-    public long getMaxShortUrlBase10() {
-        if (maxShortUrlBase10 == null) {
-            String shortUrlRange = getParameter(SHORT_URL_RANGE);
-            String[] tokens = shortUrlRange.split(",\\s*");
-            maxShortUrlBase10 = Long.parseLong(tokens[1]);
-        }
-        return maxShortUrlBase10;
+    public Mono<Long> getMaxShortUrlBase10() {
+        return getParameter(SHORT_URL_RANGE).map(range -> {
+            String[] tokens = range.split(",\\s*");
+            return Long.parseLong(tokens[1]);
+        });
     }
 
     @Override
-    public long getMinShortUrlBase10() {
-        if (minShortUrlBase10 == null) {
-            String shortUrlRange = getParameter(SHORT_URL_RANGE);
-            String[] tokens = shortUrlRange.split(",\\s*");
-            minShortUrlBase10 = Long.parseLong(tokens[0]);
-        }
-        return minShortUrlBase10;
+    public Mono<Long> getMinShortUrlBase10() {
+        return getParameter(SHORT_URL_RANGE).map(range -> {
+            String[] tokens = range.split(",\\s*");
+            return Long.parseLong(tokens[0]);
+        });
     }
 
     @Override
-    public String getShortUrlMappingTableName() {
-        if (shortUrlMappingTableName == null) {
-            shortUrlMappingTableName = getParameter(
-                    SHORT_URL_MAPPING_TABLE_NAME);
-
+    public Mono<String> getShortUrlMappingTableName() {
+        return getParameter(SHORT_URL_MAPPING_TABLE_NAME).map(tableName -> {
             System.out.printf("====> lambdaFunctionName = %s\n",
                     lambdaFunctionName);
             System.out.printf("====> useTestRepositoryWhenRunningLocally = %s\n",
@@ -144,39 +105,27 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
 
             if (lambdaFunctionName.startsWith("test-")
                     || useTestRepositoryWhenRunningLocally) {
-                shortUrlMappingTableName = "test-" +
-                        shortUrlMappingTableName;
+                tableName = "test-" + tableName;
                 System.out.printf("====> shortUrlMappingTableName = %s\n",
-                        shortUrlMappingTableName);
+                        tableName);
             }
-        }
-        return shortUrlMappingTableName;
+            return tableName;
+        });
     }
 
     @Override
-    public String getShortUrlReservationServiceBaseUrlAws() {
-        if (shortUrlReservationServiceBaseUrlAws == null) {
-            shortUrlReservationServiceBaseUrlAws = getParameter(
-                    SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS);
-        }
-        return shortUrlReservationServiceBaseUrlAws;
+    public Mono<String> getShortUrlReservationServiceBaseUrlAws() {
+        return getParameter(SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS);
     }
 
     @Override
-    public String getShortUrlReservationServiceBaseUrlLocal() {
-        if (shortUrlReservationServiceBaseUrlLocal == null) {
-            shortUrlReservationServiceBaseUrlLocal = getParameter(
-                    SHORT_URL_RESERVATION_SERVICE_BASE_URL_LOCAL);
-        }
-        return shortUrlReservationServiceBaseUrlLocal;
+    public Mono<String> getShortUrlReservationServiceBaseUrlLocal() {
+        return getParameter(SHORT_URL_RESERVATION_SERVICE_BASE_URL_LOCAL);
     }
 
     @Override
-    public String getShortUrlReservationTableName() {
-        if (shortUrlReservationTableName == null) {
-            shortUrlReservationTableName = getParameter(
-                    SHORT_URL_RESERVATION_TABLE_NAME);
-
+    public Mono<String> getShortUrlReservationTableName() {
+        return getParameter(SHORT_URL_MAPPING_TABLE_NAME).map(tableName -> {
             System.out.printf("====> lambdaFunctionName = %s\n",
                     lambdaFunctionName);
             System.out.printf("====> useTestRepositoryWhenRunningLocally = %s\n",
@@ -184,21 +133,17 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
 
             if (lambdaFunctionName.startsWith("test-")
                     || useTestRepositoryWhenRunningLocally) {
-                shortUrlReservationTableName = "test-" +
-                        shortUrlReservationTableName;
+                tableName = "test-" + tableName;
                 System.out.printf("====> shortUrlReservationTableName = %s\n",
-                        shortUrlReservationTableName);
+                        tableName);
             }
-        }
-        return shortUrlReservationTableName;
+            return tableName;
+        });
     }
 
     @Override
-    public String getShortUrlUserTableName() {
-        if (shortUrlUserTableName == null) {
-            shortUrlUserTableName = getParameter(
-                    SHORT_URL_USER_TABLE_NAME);
-
+    public Mono<String> getShortUrlUserTableName() {
+        return getParameter(SHORT_URL_MAPPING_TABLE_NAME).map(tableName -> {
             System.out.printf("====> lambdaFunctionName = %s\n",
                     lambdaFunctionName);
             System.out.printf("====> useTestRepositoryWhenRunningLocally = %s\n",
@@ -206,41 +151,30 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
 
             if (lambdaFunctionName.startsWith("test-")
                     || useTestRepositoryWhenRunningLocally) {
-                shortUrlUserTableName = "test-" +
-                        shortUrlUserTableName;
+                tableName = "test-" + tableName;
                 System.out.printf("====> shortUrlUserTableName = %s\n",
-                        shortUrlUserTableName);
+                        tableName);
             }
-        }
-        return shortUrlUserTableName;
+            return tableName;
+        });
     }
 
     // ------------------------------------------------------------------------
     // PRIVATE METHODS
     // ------------------------------------------------------------------------
 
-    /**
-     * Get a parameter from the Parameter Store.
-     *
-     * @param parameterName The name of the parameter of interest.
-     * @return The value of the parameter in the Parameter Store.
-     */
-    private String getParameter(String parameterName) {
-        GetParameterResponse parameterResponse =
-                ssmClient.getParameter(req -> req.name(parameterName));
-        return parameterResponse.parameter().value();
+    private Mono<String> getParameter(String parameterName) {
+        return Mono.fromFuture(ssmAsyncClient.getParameter(req ->
+                        req.name(parameterName)))
+                .map(getParameterResponse ->
+                        getParameterResponse.parameter().value());
     }
 
-    /**
-     * Set a parameter in the Parameter Store.
-     *
-     * @param parameterName The name of the parameter of interest.
-     */
-    private void setParameter(String parameterName, String parameterValue) {
-        ssmClient.putParameter(req -> req
+    private Mono<Void> setParameter(String parameterName, String parameterValue) {
+        return Mono.fromFuture(ssmAsyncClient.putParameter(req -> req
                 .name(parameterName)
                 .value(parameterValue)
                 .type(ParameterType.STRING)
-                .overwrite(true));
+                .overwrite(true))).then();
     }
 }
