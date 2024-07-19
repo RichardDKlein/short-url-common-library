@@ -26,9 +26,9 @@ public class AdminBasicAuthenticationWebFilterImpl extends AdminBasicAuthenticat
 
         List<ServerWebExchangeMatcher> matchers = Arrays.asList(
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET,
-                "**/adminjwt"),
+                "/**/adminjwt"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST,
-                        "**/dbinit")
+                        "/**/dbinit")
         );
         setRequiresAuthenticationMatcher(new OrServerWebExchangeMatcher(matchers));
     }
