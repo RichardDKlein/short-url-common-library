@@ -125,7 +125,7 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
 
     @Override
     public Mono<String> getShortUrlReservationTableName() {
-        return getParameter(SHORT_URL_MAPPING_TABLE_NAME).map(tableName -> {
+        return getParameter(SHORT_URL_RESERVATION_TABLE_NAME).map(tableName -> {
             System.out.printf("====> lambdaFunctionName = %s\n",
                     lambdaFunctionName);
             System.out.printf("====> useTestRepositoryWhenRunningLocally = %s\n",
@@ -143,7 +143,7 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
 
     @Override
     public Mono<String> getShortUrlUserTableName() {
-        return getParameter(SHORT_URL_MAPPING_TABLE_NAME).map(tableName -> {
+        return getParameter(SHORT_URL_USER_TABLE_NAME).map(tableName -> {
             System.out.printf("====> lambdaFunctionName = %s\n",
                     lambdaFunctionName);
             System.out.printf("====> useTestRepositoryWhenRunningLocally = %s\n",
