@@ -6,9 +6,9 @@
 package com.richarddklein.shorturlcommonlibrary.security.util;
 
 import com.richarddklein.shorturlcommonlibrary.security.dto.UsernameAndRole;
-import io.jsonwebtoken.Claims;
+import reactor.core.publisher.Mono;
 
 public interface JwtUtils {
-    String generateToken(UsernameAndRole usernameAndRole);
-    UsernameAndRole extractUsernameAndRoleFromToken(String jwtToken);
+    Mono<String> generateToken(UsernameAndRole usernameAndRole);
+    Mono<UsernameAndRole> extractUsernameAndRoleFromToken(String jwtToken);
 }

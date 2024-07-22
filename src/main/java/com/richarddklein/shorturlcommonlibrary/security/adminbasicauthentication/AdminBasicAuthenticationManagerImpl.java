@@ -17,13 +17,18 @@ public class AdminBasicAuthenticationManagerImpl implements AdminBasicAuthentica
 
     @Override
     public Mono<Authentication> authenticate(Authentication authentication) {
-        if (authentication.getPrincipal().equals(parameterStoreReader.getAdminUsername()) &&
-                authentication.getCredentials().equals(parameterStoreReader.getAdminPassword())) {
-            System.out.printf("AdminBasicAuthenticationManagerImpl: admin credentials are correct\n");
-            return Mono.just(authentication);
-        } else {
-            return Mono.error(new BadCredentialsException(
-                    "The Authorization header does not contain valid Admin credentials"));
-        }
+        return parameterStoreReader.getAdminUsername().flatMap(adminUsername ->
+                parameterStoreReader.getAdminPassword().flatMap(adminPassword -> {
+
+            if (authentication.getPrincipal().equals(adminUsername) &&
+                    authentication.getCredentials().equals(adminPassword)) {
+                    System.out.print("====> AdminBasicAuthenticationManagerImpl: " +
+                            "admin credentials are correct\n");
+                    return Mono.just(authentication);
+            } else {
+                    return Mono.error(new BadCredentialsException(
+                            "The Authorization header does not contain valid Admin credentials"));
+            }
+        }));
     }
 }

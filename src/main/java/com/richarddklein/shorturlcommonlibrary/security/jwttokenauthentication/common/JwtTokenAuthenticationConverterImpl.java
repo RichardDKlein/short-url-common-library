@@ -34,8 +34,7 @@ public class JwtTokenAuthenticationConverterImpl implements JwtTokenAuthenticati
 
         String jwtToken = authorizationHeader.substring("Bearer ".length()).trim();
 
-        try {
-            UsernameAndRole usernameAndRole = jwtUtils.extractUsernameAndRoleFromToken(jwtToken);
+        return jwtUtils.extractUsernameAndRoleFromToken(jwtToken).map(usernameAndRole -> {
             String username = usernameAndRole.getUsername();
             String role = usernameAndRole.getRole();
 
@@ -44,13 +43,13 @@ public class JwtTokenAuthenticationConverterImpl implements JwtTokenAuthenticati
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(username, null, authorities);
 
-            return Mono.just(authenticationToken);
-        } catch (Exception e) {
+            return (Authentication)authenticationToken;
+        }).onErrorResume(e -> {
             System.out.println("====> " + e.getMessage());
             int indexOfColon = e.getMessage().indexOf(':');
             String errorMsg = (indexOfColon < 0) ?
                     e.getMessage() : e.getMessage().substring(0, indexOfColon);
             return Mono.error(new InvalidJwtException(errorMsg));
-        }
+        });
     }
 }

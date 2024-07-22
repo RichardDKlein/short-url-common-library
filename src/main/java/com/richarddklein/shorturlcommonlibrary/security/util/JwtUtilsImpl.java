@@ -15,6 +15,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import reactor.core.publisher.Mono;
 
 public class JwtUtilsImpl implements JwtUtils {
     private final ParameterStoreReader parameterStoreReader;
@@ -24,38 +25,44 @@ public class JwtUtilsImpl implements JwtUtils {
     }
 
     @Override
-    public String generateToken(UsernameAndRole usernameAndRole) {
+    public Mono<String> generateToken(UsernameAndRole usernameAndRole) {
         Date now = new Date();
-        long timeToLive = TimeUnit.MINUTES.toMillis(
-                parameterStoreReader.getJwtMinutesToLive());
-        Date expirationDate = new Date(now.getTime() + timeToLive);
+        return parameterStoreReader
+                .getJwtMinutesToLive().flatMap(minutesToLive -> {
 
-        return Jwts.builder()
-                .subject(usernameAndRole.getUsername())
-                .claim("role", usernameAndRole.getRole())
-                .issuedAt(now)
-                .expiration(expirationDate)
-                .signWith(getKey())
-                .compact();
+            long timeToLive = TimeUnit.MINUTES.toMillis(minutesToLive);
+            Date expirationDate = new Date(now.getTime() + timeToLive);
+
+            return getKey().map(key -> Jwts.builder()
+                    .subject(usernameAndRole.getUsername())
+                    .claim("role", usernameAndRole.getRole())
+                    .issuedAt(now)
+                    .expiration(expirationDate)
+                    .signWith(key)
+                    .compact());
+        });
     }
 
     @Override
-    public UsernameAndRole extractUsernameAndRoleFromToken(String token) {
-        Claims payload = Jwts.parser()
-                .verifyWith(getKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+    public Mono<UsernameAndRole> extractUsernameAndRoleFromToken(String token) {
+        return getKey().map(key -> {
+            Claims payload = Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
 
-        String username = payload.getSubject();
-        String role = payload.get("role", String.class);
+            String username = payload.getSubject();
+            String role = payload.get("role", String.class);
 
-        return new UsernameAndRole(username, role);
+            return new UsernameAndRole(username, role);
+        });
     }
 
-    private SecretKey getKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(
-                parameterStoreReader.getJwtSecretKey());
-        return Keys.hmacShaKeyFor(keyBytes);
+    private Mono<SecretKey> getKey() {
+        return parameterStoreReader.getJwtSecretKey().map(key -> {
+            byte[] keyBytes = Decoders.BASE64.decode(key);
+            return Keys.hmacShaKeyFor(keyBytes);
+        });
     }
 }
