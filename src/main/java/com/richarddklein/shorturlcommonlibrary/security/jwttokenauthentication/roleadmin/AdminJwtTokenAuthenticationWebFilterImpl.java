@@ -28,22 +28,22 @@ public class AdminJwtTokenAuthenticationWebFilterImpl extends AdminJwtTokenAuthe
 
         List<ServerWebExchangeMatcher> matchers = Arrays.asList(
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST,
-                        "/signup", "/shorturl/users/signup",
-                        "/login", "/shorturl/users/login"),
+                        "/signup", "/short-url/users/signup",
+                        "/login", "/short-url/users/login"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET,
-                        "/all", "/shorturl/users/all", "/shorturl/reservations/all",
-                        "/specific/**", "/shorturl/reservations/specific/**",
-                        "/details", "/shorturl/users/details"),
+                        "/all", "/short-url/users/all", "/short-url/reservations/all",
+                        "/specific/**", "/short-url/reservations/specific/**",
+                        "/details", "/short-url/users/details"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.PATCH,
-                        "/changepassword", "/shorturl/users/changepassword",
-                        "/reserve/any", "/shorturl/reservations/reserve/any",
-                        "/reserve/specific/**", "/shorturl/reservations/reserve/specific/**",
-                        "/reserve/all", "/shorturl/reservations/reserve/all",
-                        "/cancel/specific/**", "/shorturl/reservations/cancel/specific/**",
-                        "/cancel/all", "/shorturl/reservations/cancel/all"),
+                        "/change-password", "/short-url/users/change-password",
+                        "/reserve/any", "/short-url/reservations/reserve/any",
+                        "/reserve/specific/**", "/short-url/reservations/reserve/specific/**",
+                        "/reserve/all", "/short-url/reservations/reserve/all",
+                        "/cancel/specific/**", "/short-url/reservations/cancel/specific/**",
+                        "/cancel/all", "/short-url/reservations/cancel/all"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.DELETE,
-                        "/specific", "/shorturl/users/specific",
-                        "/all", "/shorturl/users/all")
+                        "/specific", "/short-url/users/specific",
+                        "/all", "/short-url/users/all")
         );
 
         setRequiresAuthenticationMatcher(new OrServerWebExchangeMatcher(matchers));
