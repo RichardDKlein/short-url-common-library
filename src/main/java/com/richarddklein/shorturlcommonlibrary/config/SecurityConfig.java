@@ -5,7 +5,7 @@
 
 package com.richarddklein.shorturlcommonlibrary.config;
 
-import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreReader;
+import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreAccessor;
 import com.richarddklein.shorturlcommonlibrary.security.adminbasicauthentication.*;
 import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.common.*;
 import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.roleadmin.AdminJwtTokenAuthenticationManager;
@@ -41,7 +41,7 @@ import org.springframework.security.web.server.context.NoOpServerSecurityContext
 @EnableWebFluxSecurity
 public class SecurityConfig {
     @Autowired
-    ParameterStoreReader parameterStoreReader;
+    ParameterStoreAccessor parameterStoreAccessor;
 
     @Bean
     public SecurityWebFilterChain
@@ -151,6 +151,6 @@ public class SecurityConfig {
     @Bean
     public JwtUtils
     jwtUtils() {
-        return new JwtUtilsImpl(parameterStoreReader);
+        return new JwtUtilsImpl(parameterStoreAccessor);
     }
 }

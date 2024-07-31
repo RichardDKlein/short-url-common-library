@@ -5,7 +5,7 @@
 
 package com.richarddklein.shorturlcommonlibrary.security.adminbasicauthentication;
 
-import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreReader;
+import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -13,12 +13,12 @@ import reactor.core.publisher.Mono;
 
 public class AdminBasicAuthenticationManagerImpl implements AdminBasicAuthenticationManager {
     @Autowired
-    ParameterStoreReader parameterStoreReader;
+    ParameterStoreAccessor parameterStoreAccessor;
 
     @Override
     public Mono<Authentication> authenticate(Authentication authentication) {
-        return parameterStoreReader.getAdminUsername().flatMap(adminUsername ->
-                parameterStoreReader.getAdminPassword().flatMap(adminPassword -> {
+        return parameterStoreAccessor.getAdminUsername().flatMap(adminUsername ->
+                parameterStoreAccessor.getAdminPassword().flatMap(adminPassword -> {
 
             if (authentication.getPrincipal().equals(adminUsername) &&
                     authentication.getCredentials().equals(adminPassword)) {

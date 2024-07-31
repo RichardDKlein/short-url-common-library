@@ -16,7 +16,7 @@ import software.amazon.awssdk.services.ssm.model.ParameterType;
  * The production implementation of the Parameter Store Reader interface.
  */
 @Component
-public class ParameterStoreReaderImpl implements ParameterStoreReader {
+public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
     private static final String ADMIN_USERNAME =
             "/shortUrl/users/adminUsername";
     private static final String ADMIN_PASSWORD =
@@ -50,7 +50,7 @@ public class ParameterStoreReaderImpl implements ParameterStoreReader {
     // PUBLIC METHODS
     // ------------------------------------------------------------------------
 
-    public ParameterStoreReaderImpl(SsmAsyncClient ssmAsyncClient) {
+    public ParameterStoreAccessorImpl(SsmAsyncClient ssmAsyncClient) {
         this.ssmAsyncClient = ssmAsyncClient;
     }
 

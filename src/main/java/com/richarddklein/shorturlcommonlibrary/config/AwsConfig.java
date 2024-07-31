@@ -5,12 +5,11 @@
 
 package com.richarddklein.shorturlcommonlibrary.config;
 
-import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreReader;
-import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreReaderImpl;
+import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreAccessor;
+import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreAccessorImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.services.ssm.SsmAsyncClient;
-import software.amazon.awssdk.services.ssm.SsmClient;
 
 /**
  * The AWS @Configuration class.
@@ -27,8 +26,8 @@ public class AwsConfig {
     }
 
     @Bean
-    public ParameterStoreReader
+    public ParameterStoreAccessor
     parameterStoreReader() {
-        return new ParameterStoreReaderImpl(ssmAsyncClient());
+        return new ParameterStoreAccessorImpl(ssmAsyncClient());
     }
 }

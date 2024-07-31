@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import javax.crypto.SecretKey;
 
-import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreReader;
+import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreAccessor;
 import com.richarddklein.shorturlcommonlibrary.security.dto.UsernameAndRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -18,16 +18,16 @@ import io.jsonwebtoken.security.Keys;
 import reactor.core.publisher.Mono;
 
 public class JwtUtilsImpl implements JwtUtils {
-    private final ParameterStoreReader parameterStoreReader;
+    private final ParameterStoreAccessor parameterStoreAccessor;
 
-    public JwtUtilsImpl(ParameterStoreReader parameterStoreReader) {
-        this.parameterStoreReader = parameterStoreReader;
+    public JwtUtilsImpl(ParameterStoreAccessor parameterStoreAccessor) {
+        this.parameterStoreAccessor = parameterStoreAccessor;
     }
 
     @Override
     public Mono<String> generateToken(UsernameAndRole usernameAndRole) {
         Date now = new Date();
-        return parameterStoreReader
+        return parameterStoreAccessor
                 .getJwtMinutesToLive().flatMap(minutesToLive -> {
 
             long timeToLive = TimeUnit.MINUTES.toMillis(minutesToLive);
@@ -60,7 +60,7 @@ public class JwtUtilsImpl implements JwtUtils {
     }
 
     private Mono<SecretKey> getKey() {
-        return parameterStoreReader.getJwtSecretKey().map(key -> {
+        return parameterStoreAccessor.getJwtSecretKey().map(key -> {
             byte[] keyBytes = Decoders.BASE64.decode(key);
             return Keys.hmacShaKeyFor(keyBytes);
         });
