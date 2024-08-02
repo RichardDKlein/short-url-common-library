@@ -28,7 +28,9 @@ public class AdminBasicAuthenticationWebFilterImpl extends AdminBasicAuthenticat
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET,
                         "/admin-jwt", "/short-url/users/admin-jwt"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST,
-                        "/db-init", "/short-url/users/db-init", "/short-url/reservations/db-init")
+                        "/initialize-repository",
+                        "/short-url/users/initialize-repository",
+                        "/short-url/reservations/initialize-repository")
         );
 
         setRequiresAuthenticationMatcher(new OrServerWebExchangeMatcher(matchers));
