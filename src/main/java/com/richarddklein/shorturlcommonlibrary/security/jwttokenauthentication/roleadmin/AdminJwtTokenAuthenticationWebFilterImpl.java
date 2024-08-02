@@ -32,8 +32,7 @@ public class AdminJwtTokenAuthenticationWebFilterImpl extends AdminJwtTokenAuthe
                         "/login", "/short-url/users/login"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET,
                         "/all", "/short-url/users/all", "/short-url/reservations/all",
-                        "/specific/**", "/short-url/reservations/specific/**",
-                        "/details", "/short-url/users/details"),
+                        "/specific/**", "/short-url/users/specific/**", "/short-url/reservations/specific/**"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.PATCH,
                         "/change-password", "/short-url/users/change-password",
                         "/reserve/any", "/short-url/reservations/reserve/any",
@@ -42,7 +41,7 @@ public class AdminJwtTokenAuthenticationWebFilterImpl extends AdminJwtTokenAuthe
                         "/cancel/specific/**", "/short-url/reservations/cancel/specific/**",
                         "/cancel/all", "/short-url/reservations/cancel/all"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.DELETE,
-                        "/specific", "/short-url/users/specific",
+                        "/specific/**", "/short-url/users/specific/**",
                         "/all", "/short-url/users/all")
         );
 
