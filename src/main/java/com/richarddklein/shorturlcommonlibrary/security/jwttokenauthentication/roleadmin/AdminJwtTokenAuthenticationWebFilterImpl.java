@@ -29,11 +29,20 @@ public class AdminJwtTokenAuthenticationWebFilterImpl extends AdminJwtTokenAuthe
         List<ServerWebExchangeMatcher> matchers = Arrays.asList(
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST,
                         "/signup", "/short-url/users/signup",
-                        "/login", "/short-url/users/login"),
+                        "/login", "/short-url/users/login",
+                        "/create-mapping", "/short-url/mappings/create-mapping"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET,
-                        "/all", "/short-url/users/all", "/short-url/reservations/all",
-                        "/specific/**", "/short-url/users/specific/**", "/short-url/reservations/specific/**"),
+                        "/all",
+                            "/short-url/users/all",
+                            "/short-url/reservations/all",
+                            "/short-url/mappings/all",
+                        "/specific",
+                            "/short-url/mappings/specific",
+                        "/specific/**",
+                            "/short-url/users/specific/**",
+                            "/short-url/reservations/specific/**"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.PATCH,
+                        "/change-long-url", "/short-url/mappings/change-long-url",
                         "/change-password", "/short-url/users/change-password",
                         "/reserve/any", "/short-url/reservations/reserve/any",
                         "/reserve/specific/**", "/short-url/reservations/reserve/specific/**",
@@ -41,8 +50,12 @@ public class AdminJwtTokenAuthenticationWebFilterImpl extends AdminJwtTokenAuthe
                         "/cancel/specific/**", "/short-url/reservations/cancel/specific/**",
                         "/cancel/all", "/short-url/reservations/cancel/all"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.DELETE,
-                        "/specific/**", "/short-url/users/specific/**",
-                        "/all", "/short-url/users/all")
+                        "/specific/**",
+                            "/short-url/users/specific/**",
+                            "/short-url/mappings/specific/**",
+                        "/all",
+                            "/short-url/users/all",
+                            "/short-url/mappings/all")
         );
 
         setRequiresAuthenticationMatcher(new OrServerWebExchangeMatcher(matchers));
