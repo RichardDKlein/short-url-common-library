@@ -35,9 +35,8 @@ public class AdminJwtTokenAuthenticationWebFilterImpl extends AdminJwtTokenAuthe
                         "/all",
                             "/short-url/users/all",
                             "/short-url/reservations/all",
-                            "/short-url/mappings/all",
-                        "/specific",
-                            "/short-url/mappings/specific",
+                        "/get-mappings",
+                            "/short-url/mappings/get-mappings",
                         "/specific/**",
                             "/short-url/users/specific/**",
                             "/short-url/reservations/specific/**"),
@@ -52,10 +51,10 @@ public class AdminJwtTokenAuthenticationWebFilterImpl extends AdminJwtTokenAuthe
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.DELETE,
                         "/specific/**",
                             "/short-url/users/specific/**",
-                            "/short-url/mappings/specific/**",
                         "/all",
                             "/short-url/users/all",
-                            "/short-url/mappings/all")
+                        "/delete-mappings",
+                            "/short-url/mappings/delete-mappings")
         );
 
         setRequiresAuthenticationMatcher(new OrServerWebExchangeMatcher(matchers));
