@@ -25,6 +25,10 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
             "/shortUrl/users/jwtMinutesToLive";
     private static final String JWT_SECRET_KEY =
             "/shortUrl/users/jwtSecretKey";
+    private static final String SHORT_URL_MAPPING_SERVICE_BASE_URL_AWS =
+            "/shortUrl/mappings/baseUrlAws";
+    private static final String SHORT_URL_MAPPING_SERVICE_BASE_URL_LOCAL =
+            "/shortUrl/mappings/baseUrlLocal";
     private static final String SHORT_URL_MAPPING_TABLE_NAME =
             "/shortUrl/mappings/tableName";
     private static final String SHORT_URL_RANGE =
@@ -35,6 +39,10 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
             "/shortUrl/reservations/baseUrlLocal";
     private static final String SHORT_URL_RESERVATION_TABLE_NAME =
             "/shortUrl/reservations/tableName";
+    private static final String SHORT_URL_USER_SERVICE_BASE_URL_AWS =
+            "/shortUrl/users/baseUrlAws";
+    private static final String SHORT_URL_USER_SERVICE_BASE_URL_LOCAL =
+            "/shortUrl/users/baseUrlLocal";
     private static final String SHORT_URL_USER_TABLE_NAME =
             "/shortUrl/users/tableName";
 
@@ -157,6 +165,26 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
             }
             return tableName;
         });
+    }
+
+    @Override
+    public Mono<String> getShortUrlUserServiceBaseUrlLocal() {
+        return getParameter(SHORT_URL_USER_SERVICE_BASE_URL_LOCAL);
+    }
+
+    @Override
+    public Mono<String> getShortUrlUserServiceBaseUrlAws() {
+        return getParameter(SHORT_URL_USER_SERVICE_BASE_URL_AWS);
+    }
+
+    @Override
+    public Mono<String> getShortUrlMappingServiceBaseUrlLocal() {
+        return getParameter(SHORT_URL_MAPPING_SERVICE_BASE_URL_LOCAL);
+    }
+
+    @Override
+    public Mono<String> getShortUrlMappingServiceBaseUrlAws() {
+        return getParameter(SHORT_URL_MAPPING_SERVICE_BASE_URL_AWS);
     }
 
     // ------------------------------------------------------------------------
