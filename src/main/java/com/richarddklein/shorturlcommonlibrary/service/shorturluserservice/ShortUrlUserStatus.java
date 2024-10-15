@@ -3,7 +3,7 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.status;
+package com.richarddklein.shorturlcommonlibrary.service.shorturluserservice;
 
 /**
  * The Short URL User Status.
