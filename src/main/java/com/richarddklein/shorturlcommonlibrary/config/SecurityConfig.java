@@ -16,6 +16,8 @@ import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.r
 import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.roleuser.UserJwtTokenAuthenticationManagerImpl;
 import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.roleuser.UserJwtTokenAuthenticationWebFilter;
 import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.roleuser.UserJwtTokenAuthenticationWebFilterImpl;
+import com.richarddklein.shorturlcommonlibrary.security.util.HostUtils;
+import com.richarddklein.shorturlcommonlibrary.security.util.HostUtilsImpl;
 import com.richarddklein.shorturlcommonlibrary.security.util.JwtUtils;
 import com.richarddklein.shorturlcommonlibrary.security.util.JwtUtilsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,6 +148,12 @@ public class SecurityConfig {
     public PasswordEncoder
     passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public HostUtils
+    hostUtils() {
+        return new HostUtilsImpl();
     }
 
     @Bean

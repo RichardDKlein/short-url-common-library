@@ -3,13 +3,13 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.service.shorturluserservice;
+package com.richarddklein.shorturlcommonlibrary.service.shorturluserservice.dto;
 
 /**
  * The Short URL User Status.
  *
- * An enumerated type describing the various possible statuses
- * that can be returned from the Short URL User Service.
+ * <p>An enumerated type describing the various possible statuses
+ * that can be returned from the Short URL User Service.</p>
  */
 public enum ShortUrlUserStatus {
     SUCCESS,

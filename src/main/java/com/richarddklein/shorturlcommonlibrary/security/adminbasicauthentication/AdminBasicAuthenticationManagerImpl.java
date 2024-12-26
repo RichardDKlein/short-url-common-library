@@ -22,12 +22,13 @@ public class AdminBasicAuthenticationManagerImpl implements AdminBasicAuthentica
 
             if (authentication.getPrincipal().equals(adminUsername) &&
                     authentication.getCredentials().equals(adminPassword)) {
-                    System.out.print("====> AdminBasicAuthenticationManagerImpl: " +
-                            "admin credentials are correct\n");
-                    return Mono.just(authentication);
+                System.out.print("====> AdminBasicAuthenticationManagerImpl: " +
+                        "admin credentials are correct\n");
+                return Mono.just(authentication);
             } else {
-                    return Mono.error(new BadCredentialsException(
-                            "The Authorization header does not contain valid Admin credentials"));
+                String message = "The Authorization header does not contain valid Admin credentials";
+                System.out.println("====> AdminBasicAuthenticationManagerImpl: " + message);
+                return Mono.error(new BadCredentialsException(message));
             }
         }));
     }
