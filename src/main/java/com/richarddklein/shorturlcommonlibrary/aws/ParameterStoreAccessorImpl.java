@@ -48,11 +48,8 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
 
     private final SsmAsyncClient ssmAsyncClient;
 
-    @Value("${AWS_LAMBDA_FUNCTION_NAME:}")
-    private String lambdaFunctionName;
-
-    @Value("${USE_TEST_REPOSITORY_WHEN_RUNNING_LOCALLY:false}")
-    private boolean useTestRepositoryWhenRunningLocally;
+    @Value("${PROFILE}")
+    private String profile;
 
     // ------------------------------------------------------------------------
     // PUBLIC METHODS
@@ -106,17 +103,11 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
     @Override
     public Mono<String> getShortUrlMappingTableName() {
         return getParameter(SHORT_URL_MAPPING_TABLE_NAME).map(tableName -> {
-            System.out.printf("====> lambdaFunctionName = %s\n",
-                    lambdaFunctionName);
-            System.out.printf("====> useTestRepositoryWhenRunningLocally = %s\n",
-                    useTestRepositoryWhenRunningLocally);
-
-            if (lambdaFunctionName.startsWith("test-")
-                    || useTestRepositoryWhenRunningLocally) {
+            System.out.printf("====> profile = %s\n", profile);
+            if (profile.equals("test")) {
                 tableName = "test-" + tableName;
-                System.out.printf("====> shortUrlMappingTableName = %s\n",
-                        tableName);
             }
+            System.out.printf("====> shortUrlMappingTableName = %s\n", tableName);
             return tableName;
         });
     }
@@ -134,17 +125,11 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
     @Override
     public Mono<String> getShortUrlReservationTableName() {
         return getParameter(SHORT_URL_RESERVATION_TABLE_NAME).map(tableName -> {
-            System.out.printf("====> lambdaFunctionName = %s\n",
-                    lambdaFunctionName);
-            System.out.printf("====> useTestRepositoryWhenRunningLocally = %s\n",
-                    useTestRepositoryWhenRunningLocally);
-
-            if (lambdaFunctionName.startsWith("test-")
-                    || useTestRepositoryWhenRunningLocally) {
+            System.out.printf("====> profile = %s\n", profile);
+            if (profile.equals("test")) {
                 tableName = "test-" + tableName;
-                System.out.printf("====> shortUrlReservationTableName = %s\n",
-                        tableName);
             }
+            System.out.printf("====> shortUrlReservationTableName = %s\n", tableName);
             return tableName;
         });
     }
@@ -152,17 +137,11 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
     @Override
     public Mono<String> getShortUrlUserTableName() {
         return getParameter(SHORT_URL_USER_TABLE_NAME).map(tableName -> {
-            System.out.printf("====> lambdaFunctionName = %s\n",
-                    lambdaFunctionName);
-            System.out.printf("====> useTestRepositoryWhenRunningLocally = %s\n",
-                    useTestRepositoryWhenRunningLocally);
-
-            if (lambdaFunctionName.startsWith("test-")
-                    || useTestRepositoryWhenRunningLocally) {
+            System.out.printf("====> profile = %s\n", profile);
+            if (profile.equals("test")) {
                 tableName = "test-" + tableName;
-                System.out.printf("====> shortUrlUserTableName = %s\n",
-                        tableName);
             }
+            System.out.printf("====> shortUrlUserTableName = %s\n", tableName);
             return tableName;
         });
     }
