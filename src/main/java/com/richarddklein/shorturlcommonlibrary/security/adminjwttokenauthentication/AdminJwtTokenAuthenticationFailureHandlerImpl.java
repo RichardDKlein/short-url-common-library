@@ -3,7 +3,7 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.common;
+package com.richarddklein.shorturlcommonlibrary.security.adminjwttokenauthentication;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,7 +12,6 @@ import com.richarddklein.shorturlcommonlibrary.exception.MissingAuthorizationHea
 import com.richarddklein.shorturlcommonlibrary.exception.MustBeAdminException;
 import com.richarddklein.shorturlcommonlibrary.security.dto.SecurityStatus;
 import com.richarddklein.shorturlcommonlibrary.security.dto.SecurityStatusResponse;
-import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.common.JwtTokenAuthenticationFailureHandler;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.server.WebFilterExchange;
 import reactor.core.publisher.Mono;
 
-public class JwtTokenAuthenticationFailureHandlerImpl implements JwtTokenAuthenticationFailureHandler {
+public class AdminJwtTokenAuthenticationFailureHandlerImpl implements AdminJwtTokenAuthenticationFailureHandler {
     @Override
     public Mono<Void> onAuthenticationFailure(WebFilterExchange webFilterExchange,
                                               AuthenticationException exception) {

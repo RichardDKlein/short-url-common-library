@@ -7,15 +7,7 @@ package com.richarddklein.shorturlcommonlibrary.config;
 
 import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreAccessor;
 import com.richarddklein.shorturlcommonlibrary.security.adminbasicauthentication.*;
-import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.common.*;
-import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.roleadmin.AdminJwtTokenAuthenticationManager;
-import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.roleadmin.AdminJwtTokenAuthenticationManagerImpl;
-import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.roleadmin.AdminJwtTokenAuthenticationWebFilter;
-import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.roleadmin.AdminJwtTokenAuthenticationWebFilterImpl;
-import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.roleuser.UserJwtTokenAuthenticationManager;
-import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.roleuser.UserJwtTokenAuthenticationManagerImpl;
-import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.roleuser.UserJwtTokenAuthenticationWebFilter;
-import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.roleuser.UserJwtTokenAuthenticationWebFilterImpl;
+import com.richarddklein.shorturlcommonlibrary.security.adminjwttokenauthentication.*;
 import com.richarddklein.shorturlcommonlibrary.security.util.HostUtils;
 import com.richarddklein.shorturlcommonlibrary.security.util.HostUtilsImpl;
 import com.richarddklein.shorturlcommonlibrary.security.util.JwtUtils;
@@ -95,7 +87,7 @@ public class SecurityConfig {
     }
 
     // ------------------------------------------------------------------------
-    // ADMIN AND USER JWT TOKEN AUTHENTICATION WEB FILTERS
+    // ADMIN JWT TOKEN AUTHENTICATION WEB FILTER
     // ------------------------------------------------------------------------
 
     @Bean
@@ -108,36 +100,21 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserJwtTokenAuthenticationWebFilter
-    userJwtTokenAuthenticationWebFilter() {
-        return new UserJwtTokenAuthenticationWebFilterImpl(
-                userJwtTokenAuthenticationManager(),
-                jwtTokenAuthenticationConverter(),
-                jwtTokenAuthenticationFailureHandler());
-    }
-
-    @Bean
     public AdminJwtTokenAuthenticationManager
     adminJwtTokenAuthenticationManager() {
         return new AdminJwtTokenAuthenticationManagerImpl();
     }
 
     @Bean
-    public UserJwtTokenAuthenticationManager
-    userJwtTokenAuthenticationManager() {
-        return new UserJwtTokenAuthenticationManagerImpl();
-    }
-
-    @Bean
-    public JwtTokenAuthenticationConverter
+    public AdminJwtTokenAuthenticationConverter
     jwtTokenAuthenticationConverter() {
-        return new JwtTokenAuthenticationConverterImpl();
+        return new AdminJwtTokenAuthenticationConverterImpl();
     }
 
     @Bean
-    public JwtTokenAuthenticationFailureHandler
+    public AdminJwtTokenAuthenticationFailureHandler
     jwtTokenAuthenticationFailureHandler() {
-        return new JwtTokenAuthenticationFailureHandlerImpl();
+        return new AdminJwtTokenAuthenticationFailureHandlerImpl();
     }
 
     // ------------------------------------------------------------------------

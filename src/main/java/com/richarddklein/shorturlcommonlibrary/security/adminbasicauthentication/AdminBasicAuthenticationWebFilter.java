@@ -5,7 +5,6 @@
 
 package com.richarddklein.shorturlcommonlibrary.security.adminbasicauthentication;
 
-import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 
 public class AdminBasicAuthenticationWebFilter extends AuthenticationWebFilter {

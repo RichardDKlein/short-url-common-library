@@ -3,7 +3,7 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.roleadmin;
+package com.richarddklein.shorturlcommonlibrary.security.adminjwttokenauthentication;
 
 import com.richarddklein.shorturlcommonlibrary.exception.MustBeAdminException;
 import org.springframework.security.core.Authentication;

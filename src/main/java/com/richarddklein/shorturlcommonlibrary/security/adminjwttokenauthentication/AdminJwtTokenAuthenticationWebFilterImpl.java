@@ -3,13 +3,11 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.roleadmin;
+package com.richarddklein.shorturlcommonlibrary.security.adminjwttokenauthentication;
 
 import java.util.Arrays;
 import java.util.List;
 
-import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.common.JwtTokenAuthenticationConverter;
-import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.common.JwtTokenAuthenticationFailureHandler;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.web.server.util.matcher.OrServerWebExchangeMatcher;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
@@ -18,13 +16,13 @@ import org.springframework.security.web.server.util.matcher.ServerWebExchangeMat
 public class AdminJwtTokenAuthenticationWebFilterImpl extends AdminJwtTokenAuthenticationWebFilter {
     public AdminJwtTokenAuthenticationWebFilterImpl(
             AdminJwtTokenAuthenticationManager adminJwtTokenAuthenticationManager,
-            JwtTokenAuthenticationConverter jwtTokenAuthenticationConverter,
-            JwtTokenAuthenticationFailureHandler jwtTokenAuthenticationFailureHandler) {
+            AdminJwtTokenAuthenticationConverter adminJwtTokenAuthenticationConverter,
+            AdminJwtTokenAuthenticationFailureHandler adminJwtTokenAuthenticationFailureHandler) {
 
         super(adminJwtTokenAuthenticationManager);
 
-        setServerAuthenticationConverter(jwtTokenAuthenticationConverter);
-        setAuthenticationFailureHandler(jwtTokenAuthenticationFailureHandler);
+        setServerAuthenticationConverter(adminJwtTokenAuthenticationConverter);
+        setAuthenticationFailureHandler(adminJwtTokenAuthenticationFailureHandler);
 
         List<ServerWebExchangeMatcher> matchers = Arrays.asList(
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST,

@@ -3,15 +3,13 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.common;
+package com.richarddklein.shorturlcommonlibrary.security.adminjwttokenauthentication;
 
 import java.util.Collections;
 import java.util.List;
 
 import com.richarddklein.shorturlcommonlibrary.exception.InvalidJwtException;
 import com.richarddklein.shorturlcommonlibrary.exception.MissingAuthorizationHeaderException;
-import com.richarddklein.shorturlcommonlibrary.security.dto.UsernameAndRole;
-import com.richarddklein.shorturlcommonlibrary.security.jwttokenauthentication.common.JwtTokenAuthenticationConverter;
 import com.richarddklein.shorturlcommonlibrary.security.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-public class JwtTokenAuthenticationConverterImpl implements JwtTokenAuthenticationConverter {
+public class AdminJwtTokenAuthenticationConverterImpl implements AdminJwtTokenAuthenticationConverter {
     @Autowired
     private JwtUtils jwtUtils;
 
@@ -29,7 +27,7 @@ public class JwtTokenAuthenticationConverterImpl implements JwtTokenAuthenticati
         String authorizationHeader = exchange.getRequest().getHeaders().getFirst("Authorization");
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             String message = "The request does not contain a Bearer Token authorization header";
-            System.out.println("====> JwtTokenAuthenticationConverterImpl: " + message);
+            System.out.println("====> AdminJwtTokenAuthenticationConverterImpl: " + message);
             return Mono.error(new MissingAuthorizationHeaderException(message));
         }
 
