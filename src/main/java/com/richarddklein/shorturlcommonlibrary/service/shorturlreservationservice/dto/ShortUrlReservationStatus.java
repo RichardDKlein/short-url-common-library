@@ -3,7 +3,7 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.status;
+package com.richarddklein.shorturlcommonlibrary.service.shorturlreservationservice.dto;
 
 /**
  * The Short URL Reservation Status.
