@@ -130,7 +130,7 @@ public class SecurityConfig {
     @Bean
     public HostUtils
     hostUtils() {
-        return new HostUtilsImpl();
+        return new HostUtilsImpl(parameterStoreAccessor);
     }
 
     @Bean
