@@ -110,8 +110,10 @@ public interface ParameterStoreAccessor {
      */
     Mono<String> getShortUrlUserTableName();
 
-    Mono<String> getShortUrlUserServiceBaseUrlLocal();
     Mono<String> getShortUrlUserServiceBaseUrlAws();
-    Mono<String> getShortUrlMappingServiceBaseUrlLocal();
+    Mono<String> getShortUrlUserServiceBaseUrlLocal();
     Mono<String> getShortUrlMappingServiceBaseUrlAws();
+    Mono<String> getShortUrlMappingServiceBaseUrlLocal();
+    Mono<String> getShortUrlPublicApiServiceBaseUrlAws();
+    Mono<String> getShortUrlPublicApiServiceBaseUrlLocal();
 }

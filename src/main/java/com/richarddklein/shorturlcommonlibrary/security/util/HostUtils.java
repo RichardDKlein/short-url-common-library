@@ -10,6 +10,7 @@ import reactor.core.publisher.Mono;
 
 public interface HostUtils {
     Boolean isRunningLocally(ServerHttpRequest request);
+    Mono<String> getDomain();
     Mono<String> getShortUrlUserServiceBaseUrl(ServerHttpRequest request);
     Mono<String> getShortUrlReservationServiceBaseUrl(ServerHttpRequest request);
     Mono<String> getShortUrlMappingServiceBaseUrl(ServerHttpRequest request);

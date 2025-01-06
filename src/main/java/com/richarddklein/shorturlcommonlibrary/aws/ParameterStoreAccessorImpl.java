@@ -34,6 +34,10 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
             "/shortUrl/mappings/baseUrlLocal";
     private static final String SHORT_URL_MAPPING_TABLE_NAME =
             "/shortUrl/mappings/tableName";
+    private static final String SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_AWS =
+            "/shortUrl/publicApi/baseUrlAws";
+    private static final String SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_LOCAL =
+            "/shortUrl/publicApi/baseUrlLocal";
     private static final String SHORT_URL_RANGE =
             "/shortUrl/reservations/range";
     private static final String SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS =
@@ -185,6 +189,20 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
             System.out.printf("====> shortUrlMappingTableName = %s\n", tableName);
             return tableName;
         });
+    }
+
+    // ------------------------------------------------------------------------
+    // SHORT URL PUBLIC API
+    // ------------------------------------------------------------------------
+
+    @Override
+    public Mono<String> getShortUrlPublicApiServiceBaseUrlAws() {
+        return getParameter(SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_AWS);
+    }
+
+    @Override
+    public Mono<String> getShortUrlPublicApiServiceBaseUrlLocal() {
+        return getParameter(SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_LOCAL);
     }
 
     // ========================================================================

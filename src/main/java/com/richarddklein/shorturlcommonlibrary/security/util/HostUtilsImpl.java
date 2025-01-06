@@ -5,6 +5,8 @@
 
 package com.richarddklein.shorturlcommonlibrary.security.util;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Objects;
 
 import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreAccessor;
@@ -23,6 +25,23 @@ public class HostUtilsImpl implements HostUtils {
         Objects.requireNonNull(request, "request must not be null");
         return request.getURI().getHost().equals("localhost");
     }
+
+    public Mono<String> getDomain() {
+        return parameterStoreAccessor.getShortUrlUserServiceBaseUrlAws()
+            .flatMap(url -> {
+                String domain = "";
+                try {
+                    URI uri = new URI(url);
+                    String host = uri.getHost();
+                    String[] parts = host.split("\\.");
+                    domain = parts[parts.length - 2] + "." + parts[parts.length - 1];
+                } catch (URISyntaxException e) {
+                    return Mono.error(new RuntimeException("Invalid URL: " + url, e));
+                }
+                return Mono.just(domain);
+        });
+    }
+
 
     @Override
     public Mono<String> getShortUrlUserServiceBaseUrl(ServerHttpRequest request) {
