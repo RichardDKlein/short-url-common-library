@@ -3,7 +3,7 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.aws;
+package com.richarddklein.shorturlcommonlibrary.environment;
 
 import reactor.core.publisher.Mono;
 

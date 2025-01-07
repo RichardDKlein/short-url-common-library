@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import javax.crypto.SecretKey;
 
-import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreAccessor;
+import com.richarddklein.shorturlcommonlibrary.environment.ParameterStoreAccessor;
 import com.richarddklein.shorturlcommonlibrary.security.dto.UsernameAndRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

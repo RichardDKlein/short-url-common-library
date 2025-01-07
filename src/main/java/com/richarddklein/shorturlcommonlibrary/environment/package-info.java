@@ -6,4 +6,4 @@
 /**
  * This package contains classes needed to interface with AWS.
  */
-package com.richarddklein.shorturlcommonlibrary.aws;
+package com.richarddklein.shorturlcommonlibrary.environment;

@@ -5,8 +5,8 @@
 
 package com.richarddklein.shorturlcommonlibrary.config;
 
-import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreAccessor;
-import com.richarddklein.shorturlcommonlibrary.aws.ParameterStoreAccessorImpl;
+import com.richarddklein.shorturlcommonlibrary.environment.ParameterStoreAccessor;
+import com.richarddklein.shorturlcommonlibrary.environment.ParameterStoreAccessorImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.services.ssm.SsmAsyncClient;
