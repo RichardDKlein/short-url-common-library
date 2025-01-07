@@ -8,8 +8,6 @@ package com.richarddklein.shorturlcommonlibrary.config;
 import com.richarddklein.shorturlcommonlibrary.environment.ParameterStoreAccessor;
 import com.richarddklein.shorturlcommonlibrary.security.adminbasicauthentication.*;
 import com.richarddklein.shorturlcommonlibrary.security.adminjwttokenauthentication.*;
-import com.richarddklein.shorturlcommonlibrary.environment.HostUtils;
-import com.richarddklein.shorturlcommonlibrary.environment.HostUtilsImpl;
 import com.richarddklein.shorturlcommonlibrary.security.util.JwtUtils;
 import com.richarddklein.shorturlcommonlibrary.security.util.JwtUtilsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
