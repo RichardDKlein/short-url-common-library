@@ -5,6 +5,8 @@
 
 package com.richarddklein.shorturlcommonlibrary.config;
 
+import com.richarddklein.shorturlcommonlibrary.environment.HostUtils;
+import com.richarddklein.shorturlcommonlibrary.environment.HostUtilsImpl;
 import com.richarddklein.shorturlcommonlibrary.environment.ParameterStoreAccessor;
 import com.richarddklein.shorturlcommonlibrary.environment.ParameterStoreAccessorImpl;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +20,7 @@ import software.amazon.awssdk.services.ssm.SsmAsyncClient;
  * to implement the AWS interface package.</p>
  */
 @Configuration
-public class AwsConfig {
+public class EnvironmentConfig {
     @Bean
     public SsmAsyncClient
     ssmAsyncClient() {
@@ -29,5 +31,11 @@ public class AwsConfig {
     public ParameterStoreAccessor
     parameterStoreReader() {
         return new ParameterStoreAccessorImpl(ssmAsyncClient());
+    }
+
+    @Bean
+    public HostUtils
+    hostUtils() {
+        return new HostUtilsImpl(parameterStoreReader());
     }
 }

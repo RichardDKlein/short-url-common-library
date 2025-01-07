@@ -128,12 +128,6 @@ public class SecurityConfig {
     }
 
     @Bean
-    public HostUtils
-    hostUtils() {
-        return new HostUtilsImpl(parameterStoreAccessor);
-    }
-
-    @Bean
     public JwtUtils
     jwtUtils() {
         return new JwtUtilsImpl(parameterStoreAccessor);
