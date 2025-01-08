@@ -28,26 +28,34 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
             "/shortUrl/users/jwtMinutesToLive";
     private static final String JWT_SECRET_KEY =
             "/shortUrl/users/jwtSecretKey";
-    private static final String SHORT_URL_MAPPING_SERVICE_BASE_URL_AWS =
-            "/shortUrl/mappings/baseUrlAws";
+    private static final String SHORT_URL_MAPPING_SERVICE_BASE_URL_AWS_PROD =
+            "/shortUrl/mappings/baseUrlAwsProd";
+    private static final String SHORT_URL_MAPPING_SERVICE_BASE_URL_AWS_TEST =
+            "/shortUrl/mappings/baseUrlAwsTest";
     private static final String SHORT_URL_MAPPING_SERVICE_BASE_URL_LOCAL =
             "/shortUrl/mappings/baseUrlLocal";
     private static final String SHORT_URL_MAPPING_TABLE_NAME =
             "/shortUrl/mappings/tableName";
-    private static final String SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_AWS =
-            "/shortUrl/publicApi/baseUrlAws";
+    private static final String SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_AWS_PROD =
+            "/shortUrl/publicApi/baseUrlAwsProd";
+    private static final String SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_AWS_TEST =
+            "/shortUrl/publicApi/baseUrlAwsTest";
     private static final String SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_LOCAL =
             "/shortUrl/publicApi/baseUrlLocal";
     private static final String SHORT_URL_RANGE =
             "/shortUrl/reservations/range";
-    private static final String SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS =
-            "/shortUrl/reservations/baseUrlAws";
+    private static final String SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS_PROD =
+            "/shortUrl/reservations/baseUrlAwsProd";
+    private static final String SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS_TEST =
+            "/shortUrl/reservations/baseUrlAwsTest";
     private static final String SHORT_URL_RESERVATION_SERVICE_BASE_URL_LOCAL =
             "/shortUrl/reservations/baseUrlLocal";
     private static final String SHORT_URL_RESERVATION_TABLE_NAME =
             "/shortUrl/reservations/tableName";
-    private static final String SHORT_URL_USER_SERVICE_BASE_URL_AWS =
-            "/shortUrl/users/baseUrlAws";
+    private static final String SHORT_URL_USER_SERVICE_BASE_URL_AWS_PROD =
+            "/shortUrl/users/baseUrlAwsProd";
+    private static final String SHORT_URL_USER_SERVICE_BASE_URL_AWS_TEST =
+            "/shortUrl/users/baseUrlAwsTest";
     private static final String SHORT_URL_USER_SERVICE_BASE_URL_LOCAL =
             "/shortUrl/users/baseUrlLocal";
     private static final String SHORT_URL_USER_TABLE_NAME =
@@ -99,12 +107,36 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
     }
 
     // ------------------------------------------------------------------------
-    // SHORT URL USERS
+    // SHORT URL PUBLIC API SERVICE
     // ------------------------------------------------------------------------
 
     @Override
-    public Mono<String> getShortUrlUserServiceBaseUrlAws() {
-        return getParameter(SHORT_URL_USER_SERVICE_BASE_URL_AWS);
+    public Mono<String> getShortUrlPublicApiServiceBaseUrlAwsProd() {
+        return getParameter(SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_AWS_PROD);
+    }
+
+    @Override
+    public Mono<String> getShortUrlPublicApiServiceBaseUrlAwsTest() {
+        return getParameter(SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_AWS_TEST);
+    }
+
+    @Override
+    public Mono<String> getShortUrlPublicApiServiceBaseUrlLocal() {
+        return getParameter(SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_LOCAL);
+    }
+
+    // ------------------------------------------------------------------------
+    // SHORT URL USER SERVICE
+    // ------------------------------------------------------------------------
+
+    @Override
+    public Mono<String> getShortUrlUserServiceBaseUrlAwsProd() {
+        return getParameter(SHORT_URL_USER_SERVICE_BASE_URL_AWS_PROD);
+    }
+
+    @Override
+    public Mono<String> getShortUrlUserServiceBaseUrlAwsTest() {
+        return getParameter(SHORT_URL_USER_SERVICE_BASE_URL_AWS_TEST);
     }
 
     @Override
@@ -125,12 +157,48 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
     }
 
     // ------------------------------------------------------------------------
-    // SHORT URL RESERVATIONS
+    // SHORT URL MAPPING SERVICE
     // ------------------------------------------------------------------------
 
     @Override
-    public Mono<String> getShortUrlReservationServiceBaseUrlAws() {
-        return getParameter(SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS);
+    public Mono<String> getShortUrlMappingServiceBaseUrlAwsProd() {
+        return getParameter(SHORT_URL_MAPPING_SERVICE_BASE_URL_AWS_PROD);
+    }
+
+    @Override
+    public Mono<String> getShortUrlMappingServiceBaseUrlAwsTest() {
+        return getParameter(SHORT_URL_MAPPING_SERVICE_BASE_URL_AWS_TEST);
+    }
+
+    @Override
+    public Mono<String> getShortUrlMappingServiceBaseUrlLocal() {
+        return getParameter(SHORT_URL_MAPPING_SERVICE_BASE_URL_LOCAL);
+    }
+
+    @Override
+    public Mono<String> getShortUrlMappingTableName() {
+        return getParameter(SHORT_URL_MAPPING_TABLE_NAME).map(tableName -> {
+            System.out.printf("====> profile = %s\n", profile);
+            if (profile.equals("test")) {
+                tableName = "test-" + tableName;
+            }
+            System.out.printf("====> shortUrlMappingTableName = %s\n", tableName);
+            return tableName;
+        });
+    }
+
+    // ------------------------------------------------------------------------
+    // SHORT URL RESERVATION SERVICE
+    // ------------------------------------------------------------------------
+
+    @Override
+    public Mono<String> getShortUrlReservationServiceBaseUrlAwsProd() {
+        return getParameter(SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS_PROD);
+    }
+
+    @Override
+    public Mono<String> getShortUrlReservationServiceBaseUrlAwsTest() {
+        return getParameter(SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS_TEST);
     }
 
     @Override
@@ -163,46 +231,6 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
             String[] tokens = range.split(",\\s*");
             return Long.parseLong(tokens[1]);
         });
-    }
-
-    // ------------------------------------------------------------------------
-    // SHORT URL MAPPINGS
-    // ------------------------------------------------------------------------
-
-    @Override
-    public Mono<String> getShortUrlMappingServiceBaseUrlAws() {
-        return getParameter(SHORT_URL_MAPPING_SERVICE_BASE_URL_AWS);
-    }
-
-    @Override
-    public Mono<String> getShortUrlMappingServiceBaseUrlLocal() {
-        return getParameter(SHORT_URL_MAPPING_SERVICE_BASE_URL_LOCAL);
-    }
-
-    @Override
-    public Mono<String> getShortUrlMappingTableName() {
-        return getParameter(SHORT_URL_MAPPING_TABLE_NAME).map(tableName -> {
-            System.out.printf("====> profile = %s\n", profile);
-            if (profile.equals("test")) {
-                tableName = "test-" + tableName;
-            }
-            System.out.printf("====> shortUrlMappingTableName = %s\n", tableName);
-            return tableName;
-        });
-    }
-
-    // ------------------------------------------------------------------------
-    // SHORT URL PUBLIC API
-    // ------------------------------------------------------------------------
-
-    @Override
-    public Mono<String> getShortUrlPublicApiServiceBaseUrlAws() {
-        return getParameter(SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_AWS);
-    }
-
-    @Override
-    public Mono<String> getShortUrlPublicApiServiceBaseUrlLocal() {
-        return getParameter(SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_LOCAL);
     }
 
     // ========================================================================
