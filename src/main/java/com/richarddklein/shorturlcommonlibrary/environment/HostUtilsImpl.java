@@ -9,11 +9,15 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import reactor.core.publisher.Mono;
 
 public class HostUtilsImpl implements HostUtils {
     private final ParameterStoreAccessor parameterStoreAccessor;
+
+    @Value("${PROFILE}")
+    private String profile;
 
     public HostUtilsImpl(ParameterStoreAccessor parameterStoreAccessor) {
         this.parameterStoreAccessor = parameterStoreAccessor;
@@ -26,7 +30,7 @@ public class HostUtilsImpl implements HostUtils {
     }
 
     public Mono<String> getDomain() {
-        return parameterStoreAccessor.getShortUrlUserServiceBaseUrlAws()
+        return parameterStoreAccessor.getShortUrlUserServiceBaseUrlAwsProd()
             .flatMap(url -> {
                 String domain = "";
                 try {
@@ -44,22 +48,34 @@ public class HostUtilsImpl implements HostUtils {
 
     @Override
     public Mono<String> getShortUrlUserServiceBaseUrl(ServerHttpRequest request) {
-        return isRunningLocally(request)
-            ? parameterStoreAccessor.getShortUrlUserServiceBaseUrlLocal()
-            : parameterStoreAccessor.getShortUrlUserServiceBaseUrlAws();
-    }
-
-    @Override
-    public Mono<String> getShortUrlReservationServiceBaseUrl(ServerHttpRequest request) {
-        return isRunningLocally(request)
-            ? parameterStoreAccessor.getShortUrlReservationServiceBaseUrlLocal()
-            : parameterStoreAccessor.getShortUrlReservationServiceBaseUrlAws();
+        if (isRunningLocally(request)) {
+            return parameterStoreAccessor.getShortUrlUserServiceBaseUrlLocal();
+        } else {
+            return (profile.equals("prod"))
+                ? parameterStoreAccessor.getShortUrlUserServiceBaseUrlAwsProd()
+                : parameterStoreAccessor.getShortUrlUserServiceBaseUrlAwsTest();
+        }
     }
 
     @Override
     public Mono<String> getShortUrlMappingServiceBaseUrl(ServerHttpRequest request) {
-        return isRunningLocally(request)
-            ? parameterStoreAccessor.getShortUrlMappingServiceBaseUrlLocal()
-            : parameterStoreAccessor.getShortUrlMappingServiceBaseUrlAws();
+        if (isRunningLocally(request)) {
+            return parameterStoreAccessor.getShortUrlMappingServiceBaseUrlLocal();
+        } else {
+            return (profile.equals("prod"))
+                ? parameterStoreAccessor.getShortUrlMappingServiceBaseUrlAwsProd()
+                : parameterStoreAccessor.getShortUrlMappingServiceBaseUrlAwsTest();
+        }
+    }
+
+    @Override
+    public Mono<String> getShortUrlReservationServiceBaseUrl(ServerHttpRequest request) {
+        if (isRunningLocally(request)) {
+            return parameterStoreAccessor.getShortUrlReservationServiceBaseUrlLocal();
+        } else {
+            return (profile.equals("prod"))
+                ? parameterStoreAccessor.getShortUrlReservationServiceBaseUrlAwsProd()
+                : parameterStoreAccessor.getShortUrlReservationServiceBaseUrlAwsTest();
+        }
     }
 }
