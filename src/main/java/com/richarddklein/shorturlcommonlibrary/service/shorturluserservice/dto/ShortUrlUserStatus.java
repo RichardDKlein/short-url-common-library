@@ -23,4 +23,5 @@ public enum ShortUrlUserStatus {
     UNKNOWN_ERROR,
     USER_ALREADY_EXISTS,
     WRONG_PASSWORD,
+    WRONG_USER,
 }
