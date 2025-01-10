@@ -8,6 +8,7 @@ package com.richarddklein.shorturlcommonlibrary.service.shorturlmappingservice.d
 import java.util.List;
 
 import com.richarddklein.shorturlcommonlibrary.service.shorturlmappingservice.entity.ShortUrlMapping;
+import com.richarddklein.shorturlcommonlibrary.service.status.Status;
 
 @SuppressWarnings("unused")
 public class StatusAndShortUrlMappingArray {

@@ -8,6 +8,7 @@ package com.richarddklein.shorturlcommonlibrary.service.shorturlreservationservi
 import java.util.List;
 
 import com.richarddklein.shorturlcommonlibrary.service.shorturlreservationservice.entity.ShortUrlReservation;
+import com.richarddklein.shorturlcommonlibrary.service.status.Status;
 
 @SuppressWarnings("unused")
 public class StatusAndShortUrlReservationArray {

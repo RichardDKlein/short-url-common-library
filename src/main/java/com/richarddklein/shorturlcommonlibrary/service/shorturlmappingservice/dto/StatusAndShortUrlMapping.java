@@ -6,6 +6,7 @@
 package com.richarddklein.shorturlcommonlibrary.service.shorturlmappingservice.dto;
 
 import com.richarddklein.shorturlcommonlibrary.service.shorturlmappingservice.entity.ShortUrlMapping;
+import com.richarddklein.shorturlcommonlibrary.service.status.Status;
 
 @SuppressWarnings("unused")
 public class StatusAndShortUrlMapping {

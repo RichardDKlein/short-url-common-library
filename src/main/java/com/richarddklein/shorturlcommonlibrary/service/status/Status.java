@@ -3,30 +3,26 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.service.shorturlreservationservice.dto;
+package com.richarddklein.shorturlcommonlibrary.service.status;
 
-/**
- * Class defining an HTTP Response containing a status
- * code/message only.
- */
 public class Status {
-    private ShortUrlReservationStatus status;
+    private ShortUrlStatus status;
     private String message;
 
-    public Status(ShortUrlReservationStatus status, String message) {
+    public Status(ShortUrlStatus status, String message) {
         this.status = status;
         this.message = message;
     }
 
-    public Status(ShortUrlReservationStatus status) {
+    public Status(ShortUrlStatus status) {
         this.status = status;
     }
 
-    public ShortUrlReservationStatus getStatus() {
+    public ShortUrlStatus getStatus() {
         return status;
     }
 
-    public void setStatus(ShortUrlReservationStatus status) {
+    public void setStatus(ShortUrlStatus status) {
         this.status = status;
     }
 

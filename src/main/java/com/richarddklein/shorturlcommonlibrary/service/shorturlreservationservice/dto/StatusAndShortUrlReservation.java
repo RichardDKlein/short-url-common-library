@@ -6,6 +6,7 @@
 package com.richarddklein.shorturlcommonlibrary.service.shorturlreservationservice.dto;
 
 import com.richarddklein.shorturlcommonlibrary.service.shorturlreservationservice.entity.ShortUrlReservation;
+import com.richarddklein.shorturlcommonlibrary.service.status.Status;
 
 @SuppressWarnings("unused")
 public class StatusAndShortUrlReservation {

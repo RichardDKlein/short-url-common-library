@@ -6,6 +6,7 @@
 package com.richarddklein.shorturlcommonlibrary.service.shorturluserservice.dto;
 
 import com.richarddklein.shorturlcommonlibrary.service.shorturluserservice.entity.ShortUrlUser;
+import com.richarddklein.shorturlcommonlibrary.service.status.Status;
 
 @SuppressWarnings("unused")
 public class StatusAndShortUrlUser {
