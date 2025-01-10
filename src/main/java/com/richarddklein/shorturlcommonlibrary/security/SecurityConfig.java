@@ -8,6 +8,7 @@ package com.richarddklein.shorturlcommonlibrary.security;
 import com.richarddklein.shorturlcommonlibrary.environment.ParameterStoreAccessor;
 import com.richarddklein.shorturlcommonlibrary.security.adminbasicauthentication.*;
 import com.richarddklein.shorturlcommonlibrary.security.adminjwttokenauthentication.*;
+import com.richarddklein.shorturlcommonlibrary.security.nocookieauthentication.*;
 import com.richarddklein.shorturlcommonlibrary.security.util.JwtUtils;
 import com.richarddklein.shorturlcommonlibrary.security.util.JwtUtilsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,37 @@ public class SecurityConfig {
     }
 
     // ------------------------------------------------------------------------
+    // NO COOKIE AUTHENTICATION WEB FILTER
+    // ------------------------------------------------------------------------
+
+    @Bean
+    public NoCookieAuthenticationWebFilter
+    noCookieAuthenticationWebFilter() {
+        return new NoCookieAuthenticationWebFilterImpl(
+                noCookieAuthenticationManager(),
+                noCookieAuthenticationConverter(),
+                noCookieAuthenticationFailureHandler());
+    }
+
+    @Bean
+    public NoCookieAuthenticationManager
+    noCookieAuthenticationManager() {
+        return new NoCookieAuthenticationManagerImpl();
+    }
+
+    @Bean
+    public NoCookieAuthenticationConverter
+    noCookieAuthenticationConverter() {
+        return new NoCookieAuthenticationConverterImpl();
+    }
+
+    @Bean
+    public NoCookieAuthenticationFailureHandler
+    noCookieAuthenticationFailureHandler() {
+        return new NoCookieAuthenticationFailureHandlerImpl();
+    }
+
+    // ------------------------------------------------------------------------
     // ADMIN BASIC AUTHENTICATION WEB FILTER
     // ------------------------------------------------------------------------
 
@@ -93,8 +125,8 @@ public class SecurityConfig {
     adminJwtTokenAuthenticationWebFilter() {
         return new AdminJwtTokenAuthenticationWebFilterImpl(
                 adminJwtTokenAuthenticationManager(),
-                jwtTokenAuthenticationConverter(),
-                jwtTokenAuthenticationFailureHandler());
+                adminJwtTokenAuthenticationConverter(),
+                adminJwtTokenAuthenticationFailureHandler());
     }
 
     @Bean
@@ -105,13 +137,13 @@ public class SecurityConfig {
 
     @Bean
     public AdminJwtTokenAuthenticationConverter
-    jwtTokenAuthenticationConverter() {
+    adminJwtTokenAuthenticationConverter() {
         return new AdminJwtTokenAuthenticationConverterImpl();
     }
 
     @Bean
     public AdminJwtTokenAuthenticationFailureHandler
-    jwtTokenAuthenticationFailureHandler() {
+    adminJwtTokenAuthenticationFailureHandler() {
         return new AdminJwtTokenAuthenticationFailureHandlerImpl();
     }
 

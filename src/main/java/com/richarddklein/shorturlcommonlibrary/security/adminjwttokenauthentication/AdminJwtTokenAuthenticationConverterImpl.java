@@ -8,8 +8,8 @@ package com.richarddklein.shorturlcommonlibrary.security.adminjwttokenauthentica
 import java.util.Collections;
 import java.util.List;
 
-import com.richarddklein.shorturlcommonlibrary.exception.InvalidJwtException;
-import com.richarddklein.shorturlcommonlibrary.exception.MissingAuthorizationHeaderException;
+import com.richarddklein.shorturlcommonlibrary.security.exception.InvalidJwtException;
+import com.richarddklein.shorturlcommonlibrary.security.exception.MissingAuthorizationHeaderException;
 import com.richarddklein.shorturlcommonlibrary.security.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,22 +33,23 @@ public class AdminJwtTokenAuthenticationConverterImpl implements AdminJwtTokenAu
 
         String jwtToken = authorizationHeader.substring("Bearer ".length()).trim();
 
-        return jwtUtils.extractUsernameAndRoleFromToken(jwtToken).map(usernameAndRole -> {
-            String username = usernameAndRole.getUsername();
-            String role = usernameAndRole.getRole();
+        return jwtUtils.extractUsernameAndRoleFromToken(jwtToken)
+            .map(usernameAndRole -> {
+                String username = usernameAndRole.getUsername();
+                String role = usernameAndRole.getRole();
 
-            List<SimpleGrantedAuthority> authorities =
-                    Collections.singletonList(new SimpleGrantedAuthority(role));
-            UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(username, null, authorities);
+                List<SimpleGrantedAuthority> authorities =
+                        Collections.singletonList(new SimpleGrantedAuthority(role));
+                UsernamePasswordAuthenticationToken authenticationToken =
+                        new UsernamePasswordAuthenticationToken(username, null, authorities);
 
-            return (Authentication)authenticationToken;
-        }).onErrorResume(e -> {
-            System.out.println("====> " + e.getMessage());
-            int indexOfColon = e.getMessage().indexOf(':');
-            String errorMsg = (indexOfColon < 0) ?
-                    e.getMessage() : e.getMessage().substring(0, indexOfColon);
-            return Mono.error(new InvalidJwtException(errorMsg));
-        });
+                return (Authentication)authenticationToken;
+            }).onErrorResume(e -> {
+                System.out.println("====> " + e.getMessage());
+                int indexOfColon = e.getMessage().indexOf(':');
+                String errorMsg = (indexOfColon < 0) ?
+                        e.getMessage() : e.getMessage().substring(0, indexOfColon);
+                return Mono.error(new InvalidJwtException(errorMsg));
+            });
     }
 }

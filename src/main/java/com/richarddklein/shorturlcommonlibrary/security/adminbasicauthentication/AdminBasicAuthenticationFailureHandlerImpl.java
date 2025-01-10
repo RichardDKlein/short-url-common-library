@@ -7,7 +7,7 @@ package com.richarddklein.shorturlcommonlibrary.security.adminbasicauthenticatio
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.richarddklein.shorturlcommonlibrary.exception.MissingAuthorizationHeaderException;
+import com.richarddklein.shorturlcommonlibrary.security.exception.MissingAuthorizationHeaderException;
 import com.richarddklein.shorturlcommonlibrary.security.dto.SecurityStatus;
 import com.richarddklein.shorturlcommonlibrary.security.dto.SecurityStatusResponse;
 import org.springframework.core.io.buffer.DataBuffer;

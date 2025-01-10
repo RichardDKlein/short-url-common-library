@@ -5,7 +5,7 @@
 
 package com.richarddklein.shorturlcommonlibrary.security.adminbasicauthentication;
 
-import com.richarddklein.shorturlcommonlibrary.exception.MissingAuthorizationHeaderException;
+import com.richarddklein.shorturlcommonlibrary.security.exception.MissingAuthorizationHeaderException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.server.ServerWebExchange;

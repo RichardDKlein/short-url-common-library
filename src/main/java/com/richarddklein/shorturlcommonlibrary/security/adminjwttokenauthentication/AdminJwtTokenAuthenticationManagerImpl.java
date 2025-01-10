@@ -5,7 +5,7 @@
 
 package com.richarddklein.shorturlcommonlibrary.security.adminjwttokenauthentication;
 
-import com.richarddklein.shorturlcommonlibrary.exception.MustBeAdminException;
+import com.richarddklein.shorturlcommonlibrary.security.exception.MustBeAdminException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import reactor.core.publisher.Mono;

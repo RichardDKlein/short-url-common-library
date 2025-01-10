@@ -3,15 +3,13 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.security.adminjwttokenauthentication;
+package com.richarddklein.shorturlcommonlibrary.security.nocookieauthentication;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.richarddklein.shorturlcommonlibrary.security.exception.InvalidJwtException;
-import com.richarddklein.shorturlcommonlibrary.security.exception.MissingAuthorizationHeaderException;
-import com.richarddklein.shorturlcommonlibrary.security.exception.MustBeAdminException;
 import com.richarddklein.shorturlcommonlibrary.security.dto.SecurityStatus;
 import com.richarddklein.shorturlcommonlibrary.security.dto.SecurityStatusResponse;
+import com.richarddklein.shorturlcommonlibrary.security.exception.MustBeLoggedOutException;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpStatus;
@@ -21,7 +19,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.server.WebFilterExchange;
 import reactor.core.publisher.Mono;
 
-public class AdminJwtTokenAuthenticationFailureHandlerImpl implements AdminJwtTokenAuthenticationFailureHandler {
+public class NoCookieAuthenticationFailureHandlerImpl implements NoCookieAuthenticationFailureHandler {
     @Override
     public Mono<Void> onAuthenticationFailure(WebFilterExchange webFilterExchange,
                                               AuthenticationException exception) {
@@ -31,16 +29,12 @@ public class AdminJwtTokenAuthenticationFailureHandlerImpl implements AdminJwtTo
         SecurityStatus status = null;
         String message = null;
 
-        if (exception instanceof MissingAuthorizationHeaderException) {
-            status = SecurityStatus.MISSING_BEARER_TOKEN_AUTHORIZATION_HEADER;
-        } else if (exception instanceof InvalidJwtException) {
-            status = SecurityStatus.INVALID_JWT_EXCEPTION;
-        } else if (exception instanceof MustBeAdminException) {
-            status = SecurityStatus.MUST_BE_ADMIN;
+        if (exception instanceof MustBeLoggedOutException) {
+            status = SecurityStatus.MUST_BE_LOGGED_OUT;
         }
 
         ServerHttpResponse response = webFilterExchange.getExchange().getResponse();
-        response.setStatusCode(HttpStatus.UNAUTHORIZED);
+        response.setStatusCode(HttpStatus.BAD_REQUEST);
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
         SecurityStatusResponse errorResponse =
