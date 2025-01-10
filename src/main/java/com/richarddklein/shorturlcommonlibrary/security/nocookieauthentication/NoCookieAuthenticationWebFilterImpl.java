@@ -26,8 +26,8 @@ public class NoCookieAuthenticationWebFilterImpl extends NoCookieAuthenticationW
 
         List<ServerWebExchangeMatcher> matchers = Arrays.asList(
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST,
-                        "/signup-user", "/short-url/public-api/signup-user",
-                        "/login-user", "/short-url/public-api/login-user")
+                        "/signup-user", "/short-url/signup-user",
+                        "/login-user", "/short-url/login-user")
         );
 
         setRequiresAuthenticationMatcher(new OrServerWebExchangeMatcher(matchers));
