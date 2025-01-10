@@ -3,12 +3,8 @@
  * (Copyright 2024 by Richard Klein)
  */
 
-package com.richarddklein.shorturlcommonlibrary.config;
+package com.richarddklein.shorturlcommonlibrary.environment;
 
-import com.richarddklein.shorturlcommonlibrary.environment.HostUtils;
-import com.richarddklein.shorturlcommonlibrary.environment.HostUtilsImpl;
-import com.richarddklein.shorturlcommonlibrary.environment.ParameterStoreAccessor;
-import com.richarddklein.shorturlcommonlibrary.environment.ParameterStoreAccessorImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.services.ssm.SsmAsyncClient;
