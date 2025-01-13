@@ -40,7 +40,7 @@ public class AdminJwtTokenAuthenticationWebFilterImpl extends AdminJwtTokenAuthe
                             "/short-url/reservations/specific/**"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.PATCH,
                         "/change-password", "/short-url/users/change-password",
-                        "/simulate-expired-jwt-token", "/short-url/users/simulate-expired-jwt-token",
+                        "/simulate-expired-jwt-token/**", "/short-url/users/simulate-expired-jwt-token/**",
                         "/change-long-url", "/short-url/mappings/change-long-url",
                         "/reserve/any", "/short-url/reservations/reserve/any",
                         "/reserve/specific/**", "/short-url/reservations/reserve/specific/**",
