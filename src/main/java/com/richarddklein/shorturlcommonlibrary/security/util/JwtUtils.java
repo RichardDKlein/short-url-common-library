@@ -6,9 +6,10 @@
 package com.richarddklein.shorturlcommonlibrary.security.util;
 
 import com.richarddklein.shorturlcommonlibrary.security.dto.UsernameAndRole;
+import org.springframework.security.core.Authentication;
 import reactor.core.publisher.Mono;
 
 public interface JwtUtils {
     Mono<String> generateToken(UsernameAndRole usernameAndRole);
-    Mono<UsernameAndRole> extractUsernameAndRoleFromToken(String jwtToken);
+    Mono<Authentication> authenticateToken(String token);
 }
