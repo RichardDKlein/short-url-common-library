@@ -18,6 +18,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,6 +26,12 @@ import reactor.core.publisher.Mono;
 
 public class JwtUtilsImpl implements JwtUtils {
     private final ParameterStoreAccessor parameterStoreAccessor;
+
+    private boolean shouldSimulateExpiredToken = false;
+
+    @Value("${PROFILE}")
+    private String profile;
+
 
     // ------------------------------------------------------------------------
     // PUBLIC METHODS
@@ -81,6 +88,9 @@ public class JwtUtilsImpl implements JwtUtils {
     }
 
     public Mono<Boolean> isExpired(String token) {
+        if (profile.equals("test") && shouldSimulateExpiredToken) {
+            return Mono.just(true);
+        }
         return getKey().map(key -> {
             Claims payload = Jwts.parser()
                     .verifyWith(key)
@@ -92,6 +102,10 @@ public class JwtUtilsImpl implements JwtUtils {
 
             return expirationDate.before(new Date());
         });
+    }
+
+    public void setShouldSimulateExpiredToken(boolean shouldSimulateExpiredToken) {
+        this.shouldSimulateExpiredToken = shouldSimulateExpiredToken;
     }
 
     public Mono<UsernameAndRole> extractUsernameAndRoleFromToken(String token) {
