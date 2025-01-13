@@ -80,18 +80,7 @@ public class JwtUtilsImpl implements JwtUtils {
             );
     }
 
-    // ------------------------------------------------------------------------
-    // PRIVATE METHODS
-    // ------------------------------------------------------------------------
-
-    private Mono<SecretKey> getKey() {
-        return parameterStoreAccessor.getJwtSecretKey().map(key -> {
-            byte[] keyBytes = Decoders.BASE64.decode(key);
-            return Keys.hmacShaKeyFor(keyBytes);
-        });
-    }
-
-    private Mono<Boolean> isExpired(String token) {
+    public Mono<Boolean> isExpired(String token) {
         return getKey().map(key -> {
             Claims payload = Jwts.parser()
                     .verifyWith(key)
@@ -105,7 +94,7 @@ public class JwtUtilsImpl implements JwtUtils {
         });
     }
 
-    private Mono<UsernameAndRole> extractUsernameAndRoleFromToken(String token) {
+    public Mono<UsernameAndRole> extractUsernameAndRoleFromToken(String token) {
         return getKey().map(key -> {
             Claims payload = Jwts.parser()
                     .verifyWith(key)
@@ -117,6 +106,17 @@ public class JwtUtilsImpl implements JwtUtils {
             String role = payload.get("role", String.class);
 
             return new UsernameAndRole(username, role);
+        });
+    }
+
+    // ------------------------------------------------------------------------
+    // PRIVATE METHODS
+    // ------------------------------------------------------------------------
+
+    private Mono<SecretKey> getKey() {
+        return parameterStoreAccessor.getJwtSecretKey().map(key -> {
+            byte[] keyBytes = Decoders.BASE64.decode(key);
+            return Keys.hmacShaKeyFor(keyBytes);
         });
     }
 
