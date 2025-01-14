@@ -12,6 +12,7 @@ package com.richarddklein.shorturlcommonlibrary.security.dto;
  * statuses that can be returned in response to a client request.
  */
 public enum SecurityStatus {
+    EXPIRED_JWT_EXCEPTION,
     INVALID_ADMIN_CREDENTIALS,
     INVALID_JWT_EXCEPTION,
     MISSING_BASIC_AUTHORIZATION_HEADER,

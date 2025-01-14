@@ -5,6 +5,7 @@
 
 package com.richarddklein.shorturlcommonlibrary.security.adminjwttokenauthentication;
 
+import com.richarddklein.shorturlcommonlibrary.security.exception.ExpiredJwtException;
 import com.richarddklein.shorturlcommonlibrary.security.exception.InvalidJwtException;
 import com.richarddklein.shorturlcommonlibrary.security.exception.MissingAuthorizationHeaderException;
 import com.richarddklein.shorturlcommonlibrary.security.exception.MustBeAdminException;
@@ -35,6 +36,8 @@ public class AdminJwtTokenAuthenticationFailureHandlerImpl implements AdminJwtTo
             status = SecurityStatus.MISSING_BEARER_TOKEN_AUTHORIZATION_HEADER;
         } else if (exception instanceof InvalidJwtException) {
             status = SecurityStatus.INVALID_JWT_EXCEPTION;
+        } else if (exception instanceof ExpiredJwtException) {
+            status = SecurityStatus.EXPIRED_JWT_EXCEPTION;
         } else if (exception instanceof MustBeAdminException) {
             status = SecurityStatus.MUST_BE_ADMIN;
         }
