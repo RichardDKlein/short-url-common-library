@@ -12,7 +12,5 @@ import reactor.core.publisher.Mono;
 public interface JwtUtils {
     Mono<String> generateToken(UsernameAndRole usernameAndRole);
     Mono<Authentication> authenticateToken(String token);
-    Mono<Boolean> isExpired(String token);
-    void setShouldSimulateExpiredToken(boolean shouldSimulateExpiredToken);
     Mono<UsernameAndRole> extractUsernameAndRoleFromToken(String token);
 }

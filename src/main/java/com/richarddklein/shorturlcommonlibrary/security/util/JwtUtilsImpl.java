@@ -18,7 +18,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,12 +25,6 @@ import reactor.core.publisher.Mono;
 
 public class JwtUtilsImpl implements JwtUtils {
     private final ParameterStoreAccessor parameterStoreAccessor;
-
-    private boolean shouldSimulateExpiredToken = false;
-
-    @Value("${PROFILE}")
-    private String profile;
-
 
     // ------------------------------------------------------------------------
     // PUBLIC METHODS
@@ -62,59 +55,30 @@ public class JwtUtilsImpl implements JwtUtils {
 
     @Override
     public Mono<Authentication> authenticateToken(String token) {
-        return isExpired(token)
-            .flatMap(isExpired -> {
-                if (isExpired) {
-                    return Mono.error(new InvalidJwtException("The JWT token has expired"));
-                }
-                return extractUsernameAndRoleFromToken(token)
-                    .map(usernameAndRole -> {
-                        String username = usernameAndRole.getUsername();
-                        String role = usernameAndRole.getRole();
+        return extractUsernameAndRoleFromToken(token)
+            .map(usernameAndRole -> {
+                String username = usernameAndRole.getUsername();
+                String role = usernameAndRole.getRole();
 
-                        List<SimpleGrantedAuthority> authorities =
-                                Collections.singletonList(new SimpleGrantedAuthority(role));
-                        UsernamePasswordAuthenticationToken authenticationToken =
-                                new UsernamePasswordAuthenticationToken(
-                                        username, null, authorities);
+                List<SimpleGrantedAuthority> authorities =
+                    Collections.singletonList(new SimpleGrantedAuthority(role));
+                UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(
+                        username, null, authorities);
 
-                        return (Authentication)authenticationToken;
-                    }).onErrorResume(e ->
-                            Mono.error(new InvalidJwtException(getErrorMsg(e)))
-                    );
+                return (Authentication)authenticationToken;
             }).onErrorResume(e ->
                 Mono.error(new InvalidJwtException(getErrorMsg(e)))
             );
     }
 
-    public Mono<Boolean> isExpired(String token) {
-        if (profile.equals("test") && shouldSimulateExpiredToken) {
-            return Mono.just(true);
-        }
-        return getKey().map(key -> {
-            Claims payload = Jwts.parser()
-                    .verifyWith(key)
-                    .build()
-                    .parseSignedClaims(token)
-                    .getPayload();
-
-            Date expirationDate = payload.getExpiration();
-
-            return expirationDate.before(new Date());
-        });
-    }
-
-    public void setShouldSimulateExpiredToken(boolean shouldSimulateExpiredToken) {
-        this.shouldSimulateExpiredToken = shouldSimulateExpiredToken;
-    }
-
     public Mono<UsernameAndRole> extractUsernameAndRoleFromToken(String token) {
         return getKey().map(key -> {
             Claims payload = Jwts.parser()
-                    .verifyWith(key)
-                    .build()
-                    .parseSignedClaims(token)
-                    .getPayload();
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
 
             String username = payload.getSubject();
             String role = payload.get("role", String.class);
@@ -138,6 +102,6 @@ public class JwtUtilsImpl implements JwtUtils {
         System.out.println("====> " + e.getMessage());
         int indexOfColon = e.getMessage().indexOf(':');
         return (indexOfColon < 0) ?
-                e.getMessage() : e.getMessage().substring(0, indexOfColon);
+            e.getMessage() : e.getMessage().substring(0, indexOfColon);
     }
 }
