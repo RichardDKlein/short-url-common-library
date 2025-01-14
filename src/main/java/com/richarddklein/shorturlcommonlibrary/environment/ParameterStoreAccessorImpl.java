@@ -24,8 +24,10 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
             "/shortUrl/users/adminUsername";
     private static final String ADMIN_PASSWORD =
             "/shortUrl/users/adminPassword";
-    private static final String JWT_MINUTES_TO_LIVE =
-            "/shortUrl/users/jwtMinutesToLive";
+    private static final String JWT_MINUTES_TO_LIVE_PROD =
+            "/shortUrl/users/jwtMinutesToLiveProd";
+    private static final String JWT_MINUTES_TO_LIVE_TEST =
+            "/shortUrl/users/jwtMinutesToLiveTest";
     private static final String JWT_SECRET_KEY =
             "/shortUrl/users/jwtSecretKey";
     private static final String SHORT_URL_MAPPING_SERVICE_BASE_URL_AWS_PROD =
@@ -98,7 +100,13 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
 
     @Override
     public Mono<Integer> getJwtMinutesToLive() {
-        return getParameter(JWT_MINUTES_TO_LIVE).map(Integer::parseInt);
+        if (profile.equals("prod")) {
+            return getParameter(JWT_MINUTES_TO_LIVE_PROD).map(Integer::parseInt);
+        } else if (profile.equals("test")) {
+            return getParameter(JWT_MINUTES_TO_LIVE_TEST).map(Integer::parseInt);
+        } else {
+            return Mono.error(new RuntimeException("Invalid profile: " + profile));
+        }
     }
 
     @Override

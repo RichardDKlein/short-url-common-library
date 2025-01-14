@@ -13,6 +13,7 @@ import javax.crypto.SecretKey;
 
 import com.richarddklein.shorturlcommonlibrary.environment.ParameterStoreAccessor;
 import com.richarddklein.shorturlcommonlibrary.security.dto.UsernameAndRole;
+import com.richarddklein.shorturlcommonlibrary.security.exception.ExpiredJwtException;
 import com.richarddklein.shorturlcommonlibrary.security.exception.InvalidJwtException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -67,9 +68,12 @@ public class JwtUtilsImpl implements JwtUtils {
                         username, null, authorities);
 
                 return (Authentication)authenticationToken;
-            }).onErrorResume(e ->
-                Mono.error(new InvalidJwtException(getErrorMsg(e)))
-            );
+            }).onErrorResume(e -> {
+                String errorMsg = getErrorMsg(e);
+                return (errorMsg.contains("JWT expired")) ?
+                    Mono.error(new ExpiredJwtException(errorMsg)) :
+                    Mono.error(new InvalidJwtException(errorMsg));
+            });
     }
 
     public Mono<UsernameAndRole> extractUsernameAndRoleFromToken(String token) {
