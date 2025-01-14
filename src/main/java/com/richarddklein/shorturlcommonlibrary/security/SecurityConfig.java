@@ -9,6 +9,8 @@ import com.richarddklein.shorturlcommonlibrary.environment.ParameterStoreAccesso
 import com.richarddklein.shorturlcommonlibrary.security.adminbasicauthentication.*;
 import com.richarddklein.shorturlcommonlibrary.security.adminjwttokenauthentication.*;
 import com.richarddklein.shorturlcommonlibrary.security.nocookieauthentication.*;
+import com.richarddklein.shorturlcommonlibrary.security.util.HttpUtils;
+import com.richarddklein.shorturlcommonlibrary.security.util.HttpUtilsImpl;
 import com.richarddklein.shorturlcommonlibrary.security.util.JwtUtils;
 import com.richarddklein.shorturlcommonlibrary.security.util.JwtUtilsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -152,14 +154,20 @@ public class SecurityConfig {
     // ------------------------------------------------------------------------
 
     @Bean
-    public PasswordEncoder
-    passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public HttpUtils
+    httpUtils() {
+        return new HttpUtilsImpl();
     }
 
     @Bean
     public JwtUtils
     jwtUtils() {
         return new JwtUtilsImpl(parameterStoreAccessor);
+    }
+
+    @Bean
+    public PasswordEncoder
+    passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

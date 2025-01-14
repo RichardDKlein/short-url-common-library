@@ -15,7 +15,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 public class CookieAuthenticationConverterImpl implements CookieAuthenticationConverter {
-    private static final String AUTH_TOKEN = "auth_token";
+    public static final String AUTH_TOKEN = "auth_token";
 
     @Autowired
     JwtUtils jwtUtils;
