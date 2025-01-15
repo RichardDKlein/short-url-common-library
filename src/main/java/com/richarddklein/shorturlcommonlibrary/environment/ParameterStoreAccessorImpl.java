@@ -85,25 +85,25 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
 
     @Override
     public Mono<String> getAdminPassword() {
-        return getParameter(ADMIN_PASSWORD);
+        return getParameter(ADMIN_PASSWORD, false);
     }
 
     @Override
     public Mono<Void> setAdminPassword(String adminPassword) {
-        return setParameter(ADMIN_PASSWORD, adminPassword);
+        return setParameter(ADMIN_PASSWORD, adminPassword, false);
     }
 
     @Override
     public Mono<String> getAdminUsername() {
-        return getParameter(ADMIN_USERNAME);
+        return getParameter(ADMIN_USERNAME, false);
     }
 
     @Override
     public Mono<Integer> getJwtMinutesToLive() {
         if (profile.equals("prod")) {
-            return getParameter(JWT_MINUTES_TO_LIVE_PROD).map(Integer::parseInt);
+            return getParameter(JWT_MINUTES_TO_LIVE_PROD, false).map(Integer::parseInt);
         } else if (profile.equals("test")) {
-            return getParameter(JWT_MINUTES_TO_LIVE_TEST).map(Integer::parseInt);
+            return getParameter(JWT_MINUTES_TO_LIVE_TEST, true).map(Integer::parseInt);
         } else {
             return Mono.error(new RuntimeException("Invalid profile: " + profile));
         }
@@ -111,7 +111,7 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
 
     @Override
     public Mono<String> getJwtSecretKey() {
-        return getParameter(JWT_SECRET_KEY);
+        return getParameter(JWT_SECRET_KEY, false);
     }
 
     // ------------------------------------------------------------------------
@@ -120,17 +120,17 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
 
     @Override
     public Mono<String> getShortUrlPublicApiServiceBaseUrlAwsProd() {
-        return getParameter(SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_AWS_PROD);
+        return getParameter(SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_AWS_PROD, false);
     }
 
     @Override
     public Mono<String> getShortUrlPublicApiServiceBaseUrlAwsTest() {
-        return getParameter(SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_AWS_TEST);
+        return getParameter(SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_AWS_TEST, false);
     }
 
     @Override
     public Mono<String> getShortUrlPublicApiServiceBaseUrlLocal() {
-        return getParameter(SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_LOCAL);
+        return getParameter(SHORT_URL_PUBLIC_API_SERVICE_BASE_URL_LOCAL, false);
     }
 
     // ------------------------------------------------------------------------
@@ -139,22 +139,22 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
 
     @Override
     public Mono<String> getShortUrlUserServiceBaseUrlAwsProd() {
-        return getParameter(SHORT_URL_USER_SERVICE_BASE_URL_AWS_PROD);
+        return getParameter(SHORT_URL_USER_SERVICE_BASE_URL_AWS_PROD, false);
     }
 
     @Override
     public Mono<String> getShortUrlUserServiceBaseUrlAwsTest() {
-        return getParameter(SHORT_URL_USER_SERVICE_BASE_URL_AWS_TEST);
+        return getParameter(SHORT_URL_USER_SERVICE_BASE_URL_AWS_TEST, false);
     }
 
     @Override
     public Mono<String> getShortUrlUserServiceBaseUrlLocal() {
-        return getParameter(SHORT_URL_USER_SERVICE_BASE_URL_LOCAL);
+        return getParameter(SHORT_URL_USER_SERVICE_BASE_URL_LOCAL, false);
     }
 
     @Override
     public Mono<String> getShortUrlUserTableName() {
-        return getParameter(SHORT_URL_USER_TABLE_NAME).map(tableName -> {
+        return getParameter(SHORT_URL_USER_TABLE_NAME, false).map(tableName -> {
             System.out.printf("====> profile = %s\n", profile);
             if (profile.equals("test")) {
                 tableName = "test-" + tableName;
@@ -170,22 +170,22 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
 
     @Override
     public Mono<String> getShortUrlMappingServiceBaseUrlAwsProd() {
-        return getParameter(SHORT_URL_MAPPING_SERVICE_BASE_URL_AWS_PROD);
+        return getParameter(SHORT_URL_MAPPING_SERVICE_BASE_URL_AWS_PROD, false);
     }
 
     @Override
     public Mono<String> getShortUrlMappingServiceBaseUrlAwsTest() {
-        return getParameter(SHORT_URL_MAPPING_SERVICE_BASE_URL_AWS_TEST);
+        return getParameter(SHORT_URL_MAPPING_SERVICE_BASE_URL_AWS_TEST, false);
     }
 
     @Override
     public Mono<String> getShortUrlMappingServiceBaseUrlLocal() {
-        return getParameter(SHORT_URL_MAPPING_SERVICE_BASE_URL_LOCAL);
+        return getParameter(SHORT_URL_MAPPING_SERVICE_BASE_URL_LOCAL, false);
     }
 
     @Override
     public Mono<String> getShortUrlMappingTableName() {
-        return getParameter(SHORT_URL_MAPPING_TABLE_NAME).map(tableName -> {
+        return getParameter(SHORT_URL_MAPPING_TABLE_NAME, false).map(tableName -> {
             System.out.printf("====> profile = %s\n", profile);
             if (profile.equals("test")) {
                 tableName = "test-" + tableName;
@@ -201,22 +201,22 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
 
     @Override
     public Mono<String> getShortUrlReservationServiceBaseUrlAwsProd() {
-        return getParameter(SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS_PROD);
+        return getParameter(SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS_PROD, false);
     }
 
     @Override
     public Mono<String> getShortUrlReservationServiceBaseUrlAwsTest() {
-        return getParameter(SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS_TEST);
+        return getParameter(SHORT_URL_RESERVATION_SERVICE_BASE_URL_AWS_TEST, false);
     }
 
     @Override
     public Mono<String> getShortUrlReservationServiceBaseUrlLocal() {
-        return getParameter(SHORT_URL_RESERVATION_SERVICE_BASE_URL_LOCAL);
+        return getParameter(SHORT_URL_RESERVATION_SERVICE_BASE_URL_LOCAL, false);
     }
 
     @Override
     public Mono<String> getShortUrlReservationTableName() {
-        return getParameter(SHORT_URL_RESERVATION_TABLE_NAME).map(tableName -> {
+        return getParameter(SHORT_URL_RESERVATION_TABLE_NAME, false).map(tableName -> {
             System.out.printf("====> profile = %s\n", profile);
             if (profile.equals("test")) {
                 tableName = "test-" + tableName;
@@ -228,14 +228,14 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
 
     @Override
     public Mono<Long> getMinShortUrlBase10() {
-        return getParameter(SHORT_URL_RANGE).map(range -> {
+        return getParameter(SHORT_URL_RANGE, false).map(range -> {
             String[] tokens = range.split(",\\s*");
             return Long.parseLong(tokens[0]);
         });
     }
     @Override
     public Mono<Long> getMaxShortUrlBase10() {
-        return getParameter(SHORT_URL_RANGE).map(range -> {
+        return getParameter(SHORT_URL_RANGE, false).map(range -> {
             String[] tokens = range.split(",\\s*");
             return Long.parseLong(tokens[1]);
         });
@@ -245,21 +245,33 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
     // PRIVATE METHODS
     // ========================================================================
 
-    private Mono<String> getParameter(String parameterName) {
-        return cache.computeIfAbsent(parameterName, key ->
-            Mono.fromFuture(ssmAsyncClient.getParameter(req -> req.name(key)))
-                .map(getParameterResponse -> getParameterResponse.parameter().value())
-                .cache()
-        );
+    private Mono<String> getParameter(String parameterName, boolean bypassCache) {
+        if (bypassCache) {
+            // Fetch directly from Parameter Store, skipping the cache
+            return Mono.fromFuture(ssmAsyncClient.getParameter(req -> req.name(parameterName)))
+                .map(getParameterResponse -> getParameterResponse.parameter().value());
+        } else {
+            // Use cached value if available
+            return cache.computeIfAbsent(parameterName, key ->
+                Mono.fromFuture(ssmAsyncClient.getParameter(req -> req.name(key)))
+                    .map(getParameterResponse -> getParameterResponse.parameter().value())
+                    .cache()
+            );
+        }
     }
 
-    private Mono<Void> setParameter(String parameterName, String parameterValue) {
+    private Mono<Void> setParameter(String parameterName, String parameterValue, boolean bypassCache) {
         return Mono.fromFuture(ssmAsyncClient.putParameter(req -> req
-            .name(parameterName)
-            .value(parameterValue)
-            .type(ParameterType.STRING)
-            .overwrite(true)))
+                .name(parameterName)
+                .value(parameterValue)
+                .type(ParameterType.STRING)
+                .overwrite(true)))
             .then()
-            .doOnSuccess(v -> cache.put(parameterName, Mono.just(parameterValue)));
+            .doOnSuccess(v -> {
+                if (!bypassCache) {
+                    // Update the cache if caching is not bypassed
+                    cache.put(parameterName, Mono.just(parameterValue));
+                }
+            });
     }
 }
