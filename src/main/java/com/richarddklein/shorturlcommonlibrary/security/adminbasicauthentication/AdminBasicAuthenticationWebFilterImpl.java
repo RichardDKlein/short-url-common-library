@@ -26,12 +26,15 @@ public class AdminBasicAuthenticationWebFilterImpl extends AdminBasicAuthenticat
 
         List<ServerWebExchangeMatcher> matchers = Arrays.asList(
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET,
-                        "/admin-jwt", "/short-url/users/admin-jwt"),
+                        "/admin-jwt", "/short-url/users/admin-jwt",
+                        "/jwt-minutes-to-live-test", "/short-url/users/jwt-minutes-to-live-test"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST,
                         "/initialize-repository",
                         "/short-url/users/initialize-repository",
                         "/short-url/reservations/initialize-repository",
-                        "/short-url/mappings/initialize-repository")
+                        "/short-url/mappings/initialize-repository"),
+                ServerWebExchangeMatchers.pathMatchers(HttpMethod.PUT,
+                        "/jwt-minutes-to-live", "/short-url/users/jwt-minutes-to-live")
         );
 
         setRequiresAuthenticationMatcher(new OrServerWebExchangeMatcher(matchers));
