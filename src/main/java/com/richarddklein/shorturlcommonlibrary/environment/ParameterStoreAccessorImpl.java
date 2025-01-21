@@ -114,7 +114,7 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
         if (profile.equals("prod")) {
             return setParameter(JWT_MINUTES_TO_LIVE_PROD, Integer.toString(jwtMinutesToLive), false);
         } else if (profile.equals("test")) {
-            return setParameter(JWT_MINUTES_TO_LIVE_PROD, Integer.toString(jwtMinutesToLive), true);
+            return setParameter(JWT_MINUTES_TO_LIVE_TEST, Integer.toString(jwtMinutesToLive), true);
         } else {
             return Mono.error(new RuntimeException("Invalid profile: " + profile));
         }
