@@ -110,17 +110,6 @@ public class ParameterStoreAccessorImpl implements ParameterStoreAccessor {
     }
 
     @Override
-    public Mono<Void> setJwtMinutesToLive(int jwtMinutesToLive) {
-        if (profile.equals("prod")) {
-            return setParameter(JWT_MINUTES_TO_LIVE_PROD, Integer.toString(jwtMinutesToLive), false);
-        } else if (profile.equals("test")) {
-            return setParameter(JWT_MINUTES_TO_LIVE_TEST, Integer.toString(jwtMinutesToLive), true);
-        } else {
-            return Mono.error(new RuntimeException("Invalid profile: " + profile));
-        }
-    }
-
-    @Override
     public Mono<String> getJwtSecretKey() {
         return getParameter(JWT_SECRET_KEY, false);
     }

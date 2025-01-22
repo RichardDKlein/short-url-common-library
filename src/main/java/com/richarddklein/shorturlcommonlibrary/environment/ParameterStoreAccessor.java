@@ -21,7 +21,6 @@ public interface ParameterStoreAccessor {
     Mono<Void> setAdminPassword(String adminPassword);
     Mono<String> getAdminUsername();
     Mono<Integer> getJwtMinutesToLive();
-    Mono<Void> setJwtMinutesToLive(int jwtMinutesToLive);
     Mono<String> getJwtSecretKey();
 
     // Short Url Public API Service
