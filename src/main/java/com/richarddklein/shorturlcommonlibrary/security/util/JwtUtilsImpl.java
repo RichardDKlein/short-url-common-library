@@ -70,6 +70,7 @@ public class JwtUtilsImpl implements JwtUtils {
                 return (Authentication)authenticationToken;
             }).onErrorResume(e -> {
                 String errorMsg = getErrorMsg(e);
+                System.out.println("====> JwtUtilsImpl.authenticateToken(): " + errorMsg);
                 return (errorMsg.contains("JWT expired")) ?
                     Mono.error(new ExpiredJwtException(errorMsg)) :
                     Mono.error(new InvalidJwtException(errorMsg));
