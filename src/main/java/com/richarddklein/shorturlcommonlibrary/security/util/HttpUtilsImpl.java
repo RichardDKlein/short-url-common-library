@@ -33,7 +33,7 @@ public class HttpUtilsImpl implements HttpUtils {
             SecurityStatus status,
             String cookieToDelete) {
 
-        System.out.println("====> " + exception.getMessage());
+        System.out.println("====> HttpUtilsImpl.generateResponse(): " + exception.getMessage());
 
         ServerHttpResponse response = webFilterExchange.getExchange().getResponse();
         response.setStatusCode(HttpStatus.UNAUTHORIZED);

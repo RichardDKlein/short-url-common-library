@@ -104,7 +104,7 @@ public class JwtUtilsImpl implements JwtUtils {
     }
 
     private static String getErrorMsg(Throwable e) {
-        System.out.println("====> " + e.getMessage());
+        System.out.println("====> JwtUtilsImpl.getErrorMsg(): " + e.getMessage());
         int indexOfColon = e.getMessage().indexOf(':');
         return (indexOfColon < 0) ?
             e.getMessage() : e.getMessage().substring(0, indexOfColon);
