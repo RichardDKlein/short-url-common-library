@@ -42,6 +42,7 @@ public class JwtUtilsImpl implements JwtUtils {
                 .getJwtMinutesToLive().flatMap(minutesToLive -> {
 
             long timeToLive = TimeUnit.MINUTES.toMillis(minutesToLive);
+            System.out.println("====> JwtUtilsImpl.generateToken(): timeToLive = " + timeToLive);
             Date expirationDate = new Date(now.getTime() + timeToLive);
 
             return getKey().map(key -> Jwts.builder()
@@ -56,6 +57,7 @@ public class JwtUtilsImpl implements JwtUtils {
 
     @Override
     public Mono<Authentication> authenticateToken(String token) {
+        System.out.println("====> JwtUtilsImpl.authenticateToken(): token = " + token);
         return extractUsernameAndRoleFromToken(token)
             .map(usernameAndRole -> {
                 String username = usernameAndRole.getUsername();
